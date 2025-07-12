@@ -124,6 +124,12 @@ yarn node ./bin/run.js deployment:list
 # Get specific deployment details
 yarn node ./bin/run.js deployment:list --deployment-id=12345678-1234-1234-1234-123456789012
 
+# View detailed deployment logs (warnings, errors, progress)
+yarn node ./bin/run.js deployment:logs 12345678-1234-1234-1234-123456789012
+
+# View only deployment errors
+yarn node ./bin/run.js deployment:logs 12345678-1234-1234-1234-123456789012 --errors-only
+
 # Complete a deployment
 yarn node ./bin/run.js deployment:complete 12345678-1234-1234-1234-123456789012
 
@@ -139,6 +145,25 @@ yarn node ./bin/run.js database:export --environment=Production
 
 # List database exports
 yarn node ./bin/run.js database:list
+```
+
+### Log Management
+
+```bash
+# Get edge logs location (CDN/edge server logs)
+yarn node ./bin/run.js logs:edge
+
+# List available log containers for an environment
+yarn node ./bin/run.js logs:containers --environment=Production
+
+# List only writable log containers
+yarn node ./bin/run.js logs:containers --environment=Integration --writable-only
+
+# Get SAS URL for accessing specific log container
+yarn node ./bin/run.js logs:access --environment=Production --container=azure-application-logs
+
+# Get SAS URL with longer retention and write access
+yarn node ./bin/run.js logs:access --environment=Production --container=azure-web-logs --retention-hours=48 --writable
 ```
 
 ## Configuration
@@ -256,6 +281,9 @@ The Node.js CLI provides these improvements over the PowerShell module:
 | `Add-EpiDeploymentPackage` | `opti package:upload` |
 | `Start-EpiDatabaseExport` | `opti database:export` |
 | `Get-EpiDatabaseExport` | `opti database:list` |
+| `Get-EpiEdgeLogLocation` | `opti logs:edge` |
+| `Get-EpiStorageContainer` | `opti logs:containers` |
+| `Get-EpiStorageContainerSasLink` | `opti logs:access` |
 
 ## Troubleshooting
 

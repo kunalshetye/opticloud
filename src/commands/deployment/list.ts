@@ -97,9 +97,15 @@ Shows deployment status, target environment, packages, and timestamps.
           this.log(`Ended: ${formatDate(deployment.endTime || deployment.updated)}`)
         }
 
-        // Show errors if any
-        if (deployment.deploymentErrors && deployment.deploymentErrors.length > 0) {
-          this.log(`Errors: ${deployment.deploymentErrors.length} error(s)`)
+        // Show warnings and errors summary
+        const warningCount = deployment.deploymentWarnings?.length || 0
+        const errorCount = deployment.deploymentErrors?.length || 0
+        
+        if (warningCount > 0 || errorCount > 0) {
+          this.log(`Logs: ${errorCount} error(s), ${warningCount} warning(s)`)
+          if (errorCount > 0 || warningCount > 0) {
+            this.log(`      Use "opti deployment logs ${deployment.id}" for details`)
+          }
         }
 
         this.log('─'.repeat(50))
