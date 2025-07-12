@@ -100,7 +100,10 @@ Warning: This action cannot be undone.
       this.log('')
       this.log(`Deployment ID: ${deployment.id}`)
       this.log(`Status: ${formatDeploymentStatus(deployment.status)}`)
-      this.log(`Target: ${deployment.targetEnvironment}`)
+      const targetEnv = deployment.parameters?.targetEnvironment || deployment.targetEnvironment
+      if (targetEnv && targetEnv !== 'undefined') {
+        this.log(`Target: ${targetEnv}`)
+      }
       this.log('')
       this.log('You can now retry the deployment or take corrective action.')
     } catch (error) {

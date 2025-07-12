@@ -207,6 +207,9 @@ opti-dxp-cli deployment:watch 12345678-1234-1234-1234-123456789012
 # Complete a deployment
 opti-dxp-cli deployment:complete 12345678-1234-1234-1234-123456789012
 
+# Complete a deployment and watch progress
+opti-dxp-cli deployment:complete 12345678-1234-1234-1234-123456789012 --watch
+
 # Reset a failed deployment
 opti-dxp-cli deployment:reset 12345678-1234-1234-1234-123456789012
 ```

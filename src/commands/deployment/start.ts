@@ -184,9 +184,9 @@ You can deploy from packages or copy from another environment.
       this.log(`Deployment ID: ${deployment.id}`)
       this.log(`Status: ${formatDeploymentStatus(deployment.status)}`)
       
-      // Get target environment from parameters or legacy field
-      const targetEnv = deployment.parameters?.targetEnvironment || deployment.targetEnvironment
-      if (targetEnv) {
+      // Get target environment from parameters, legacy field, or fallback to the requested target
+      const targetEnv = deployment.parameters?.targetEnvironment || deployment.targetEnvironment || target
+      if (targetEnv && targetEnv !== 'undefined') {
         this.log(`Target: ${targetEnv}`)
       }
       
