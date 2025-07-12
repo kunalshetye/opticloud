@@ -98,3 +98,5 @@ credentials.json
 
 # CLI generated files
 .opti-dxp-cli/
+
+tsconfig.tsbuildinfo

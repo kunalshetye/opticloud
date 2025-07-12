@@ -112,6 +112,9 @@ yarn node ./bin/run.js package:get-upload-url
 # Start deployment with packages
 yarn node ./bin/run.js deployment:start --target=Integration --packages=app.zip
 
+# Start deployment and watch progress in real-time
+yarn node ./bin/run.js deployment:start --target=Integration --packages=app.zip --watch
+
 # Start deployment copying from another environment
 yarn node ./bin/run.js deployment:start --target=Production --source=Preproduction
 
@@ -129,6 +132,9 @@ yarn node ./bin/run.js deployment:logs 12345678-1234-1234-1234-123456789012
 
 # View only deployment errors
 yarn node ./bin/run.js deployment:logs 12345678-1234-1234-1234-123456789012 --errors-only
+
+# Watch an existing deployment progress in real-time
+yarn node ./bin/run.js deployment:watch 12345678-1234-1234-1234-123456789012
 
 # Complete a deployment
 yarn node ./bin/run.js deployment:complete 12345678-1234-1234-1234-123456789012

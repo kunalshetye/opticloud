@@ -9,6 +9,8 @@ import {
   validateEnvironment,
   createSpinner,
   formatDeploymentStatus,
+  logInfo,
+  logWarning,
 } from '../../lib/utils.js'
 
 export default class DeploymentStart extends Command {
@@ -24,6 +26,9 @@ You can deploy from packages or copy from another environment.
     '$ opti deployment start --target=production --source=preproduction',
     '$ opti deployment start --target=integration --packages=site.cms.app.1.0.0.nupkg',
     '$ opti deployment start --target=production --maintenance-page',
+    '$ opti deployment start --target=integration --packages=app.zip --watch',
+    '$ opti deployment start --target=production --packages=app.zip --watch --poll-interval=30',
+    '$ opti deployment start --target=integration --packages=app.zip --watch --continue-on-errors',
   ]
 
   static override flags = {
@@ -57,6 +62,20 @@ You can deploy from packages or copy from another environment.
     interactive: Flags.boolean({
       char: 'i',
       description: 'Use interactive mode',
+      default: false,
+    }),
+    watch: Flags.boolean({
+      description: 'Watch deployment progress and show real-time updates',
+      default: false,
+    }),
+    'poll-interval': Flags.integer({
+      description: 'Polling interval in seconds for watch mode',
+      default: 10,
+      min: 5,
+      max: 300,
+    }),
+    'continue-on-errors': Flags.boolean({
+      description: 'Continue watching even when errors are detected',
       default: false,
     }),
     json: Flags.boolean({
@@ -164,18 +183,154 @@ You can deploy from packages or copy from another environment.
       this.log('')
       this.log(`Deployment ID: ${deployment.id}`)
       this.log(`Status: ${formatDeploymentStatus(deployment.status)}`)
-      this.log(`Target: ${deployment.targetEnvironment}`)
-      if (deployment.sourceEnvironment) {
-        this.log(`Source: ${deployment.sourceEnvironment}`)
+      
+      // Get target environment from parameters or legacy field
+      const targetEnv = deployment.parameters?.targetEnvironment || deployment.targetEnvironment
+      if (targetEnv) {
+        this.log(`Target: ${targetEnv}`)
+      }
+      
+      // Get source environment from parameters or legacy field
+      const sourceEnv = deployment.parameters?.sourceEnvironment || deployment.sourceEnvironment
+      if (sourceEnv) {
+        this.log(`Source: ${sourceEnv}`)
       }
 
       this.log('')
-      this.log('You can check the deployment status with:')
-      this.log(`  opti deployment list --deployment-id=${deployment.id}`)
+      
+      // Watch mode: poll for status updates
+      if (flags.watch && !flags.json) {
+        this.log('👀 Watching deployment progress...')
+        this.log(`📊 Polling every ${flags['poll-interval']} seconds (Ctrl+C to stop)`)
+        this.log('')
+        
+        await this.watchDeployment(deployment.id, flags['poll-interval'], flags['project-id'], flags['continue-on-errors'])
+      } else {
+        this.log('You can check the deployment status with:')
+        this.log(`  opti deployment list --deployment-id=${deployment.id}`)
+        
+        if (!flags.watch) {
+          this.log('')
+          this.log('💡 Use --watch to monitor deployment progress in real-time')
+        }
+      }
     } catch (error) {
       spinner.stop()
       logError(`Failed to start deployment: ${formatError(error)}`)
       this.exit(1)
+    }
+  }
+
+  private async watchDeployment(deploymentId: string, pollInterval: number, projectId?: string, continueOnErrors = false): Promise<void> {
+    let lastStatus = ''
+    let lastProgress = -1
+    let lastErrorCount = 0
+    let lastWarningCount = 0
+    let consecutiveErrors = 0
+    let errorsShown = false
+    const maxErrors = 3
+
+    while (true) {
+      try {
+        const deployments = await deploymentService.listDeployments({
+          projectId: projectId || '',
+          id: deploymentId,
+        })
+
+        if (deployments.length === 0) {
+          logError('Deployment not found')
+          break
+        }
+
+        const deployment = deployments[0]
+        const currentStatus = deployment.status
+        const currentProgress = deployment.percentComplete || 0
+
+        // Status changed
+        if (currentStatus !== lastStatus) {
+          const timestamp = new Date().toLocaleTimeString()
+          this.log(`[${timestamp}] Status: ${lastStatus} → ${formatDeploymentStatus(currentStatus)}`)
+          lastStatus = currentStatus
+        }
+
+        // Progress changed
+        if (currentProgress !== lastProgress && currentProgress > lastProgress) {
+          const timestamp = new Date().toLocaleTimeString()
+          this.log(`[${timestamp}] Progress: ${currentProgress}%`)
+          lastProgress = currentProgress
+        }
+
+        // Show new warnings/errors
+        const warningCount = deployment.deploymentWarnings?.length || 0
+        const errorCount = deployment.deploymentErrors?.length || 0
+        
+        // If we have new errors, show them and potentially exit watch mode
+        if (errorCount > lastErrorCount && !errorsShown) {
+          const timestamp = new Date().toLocaleTimeString()
+          this.log(`[${timestamp}] ❌ ${errorCount} error(s) detected:`)
+          this.log('')
+          
+          deployment.deploymentErrors?.forEach((error, index) => {
+            // Handle empty or incomplete error messages properly
+            if (!error || error.trim().length === 0) {
+              this.log(`${index + 1}. (Empty error message)`)
+            } else if (error.trim() === 'Install output:' || error.trim().endsWith(':') && error.trim().length < 20) {
+              this.log(`${index + 1}. ${error} (Incomplete error message)`)
+            } else {
+              this.log(`${index + 1}. ${error}`)
+            }
+          })
+          
+          this.log('')
+          errorsShown = true
+          
+          if (!continueOnErrors) {
+            logError('Errors detected during deployment. Exiting watch mode.')
+            this.log(`📋 Use "opti deployment logs ${deploymentId}" for full details`)
+            this.log(`🔄 Use "opti deployment reset ${deploymentId}" to reset and retry`)
+            this.log(`💡 Use --continue-on-errors to keep watching despite errors`)
+            break
+          } else {
+            logWarning('Errors detected but continuing to watch (--continue-on-errors enabled)')
+          }
+        }
+        lastErrorCount = errorCount
+        
+        // Show new warnings (but continue watching)
+        if (warningCount > lastWarningCount) {
+          const timestamp = new Date().toLocaleTimeString()
+          this.log(`[${timestamp}] ⚠️  ${warningCount} warning(s) detected`)
+        }
+        lastWarningCount = warningCount
+
+        // Check if deployment is complete
+        if (currentStatus.toLowerCase() === 'succeeded') {
+          logSuccess(`Deployment completed successfully! (${currentProgress}%)`)
+          break
+        } else if (currentStatus.toLowerCase() === 'failed') {
+          logError(`Deployment failed! Use "opti deployment logs ${deploymentId}" for details`)
+          break
+        } else if (currentStatus.toLowerCase() === 'awaitingverification') {
+          logInfo(`Deployment is awaiting verification. Use "opti deployment complete ${deploymentId}" when ready.`)
+          break
+        }
+
+        // Reset error counter on successful poll
+        consecutiveErrors = 0
+
+      } catch (error) {
+        consecutiveErrors++
+        const timestamp = new Date().toLocaleTimeString()
+        logWarning(`[${timestamp}] Failed to fetch deployment status (${consecutiveErrors}/${maxErrors}): ${formatError(error)}`)
+        
+        if (consecutiveErrors >= maxErrors) {
+          logError('Too many consecutive errors. Stopping watch mode.')
+          break
+        }
+      }
+
+      // Wait before next poll
+      await new Promise(resolve => setTimeout(resolve, pollInterval * 1000))
     }
   }
 }

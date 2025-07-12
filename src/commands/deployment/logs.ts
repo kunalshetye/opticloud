@@ -123,7 +123,13 @@ This shows the deployment process logs, not application runtime logs.
         this.log(`⚠️  Warnings (${warnings.length}):`)
         this.log('─'.repeat(40))
         warnings.forEach((warning, index) => {
-          this.log(`${index + 1}. ${warning}`)
+          // Handle empty or very short warning messages
+          if (!warning || warning.trim().length === 0) {
+            this.log(`${index + 1}. (Empty warning message)`)
+          } else {
+            // Always show full message - no truncation by default
+            this.log(`${index + 1}. ${warning}`)
+          }
         })
         this.log('')
       }
@@ -133,7 +139,14 @@ This shows the deployment process logs, not application runtime logs.
         this.log(`❌ Errors (${errors.length}):`)
         this.log('─'.repeat(40))
         errors.forEach((error, index) => {
-          this.log(`${index + 1}. ${error}`)
+          // Handle empty or incomplete error messages
+          if (!error || error.trim().length === 0) {
+            this.log(`${index + 1}. (Empty error message)`)
+          } else if (error.trim() === 'Install output:' || (error.trim().endsWith(':') && error.trim().length < 20)) {
+            this.log(`${index + 1}. ${error} (Incomplete error message)`)
+          } else {
+            this.log(`${index + 1}. ${error}`)
+          }
         })
         this.log('')
       }
