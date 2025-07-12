@@ -11,12 +11,12 @@ Test the stored credentials by making a simple API call to the DXP Cloud.
 This verifies that your credentials are valid and the API is accessible.
 `
 
-  static override examples = ['$ opti auth test']
+  static override examples = ['$ opti-dxp-cli auth test']
 
   public async run(): Promise<void> {
     const credentials = await auth.getCredentials()
     if (!credentials) {
-      logError('No credentials found. Please run "opti auth login" first.')
+      logError('No credentials found. Please run "opti-dxp-cli auth:login" first.')
       this.exit(1)
     }
 
@@ -39,23 +39,23 @@ This verifies that your credentials are valid and the API is accessible.
         }
       } else {
         logError('Authentication test failed - credentials are invalid.')
-        this.log('\\nPlease run "opti auth login" with fresh credentials.')
+        this.log('\\nPlease run "opti-dxp-cli auth:login" with fresh credentials.')
         this.exit(1)
       }
     } catch (error) {
       spinner.stop()
       
       if (error instanceof Error && error.message.includes('No authentication credentials found')) {
-        logError('No credentials found. Please run "opti auth login" first.')
+        logError('No credentials found. Please run "opti-dxp-cli auth:login" first.')
       } else if (error instanceof Error && error.message.includes('403')) {
         logError('Access denied (403 Forbidden)')
         this.log('\\nThis typically means:')
         this.log('- Your credentials are invalid or expired')
         this.log('- Your account lacks necessary permissions')
-        this.log('\\nPlease run "opti auth login" with fresh credentials.')
+        this.log('\\nPlease run "opti-dxp-cli auth:login" with fresh credentials.')
       } else if (error instanceof Error && error.message.includes('401')) {
         logError('Authentication failed (401 Unauthorized)')
-        this.log('\nYour credentials are invalid. Please run "opti auth login" with correct credentials.')
+        this.log('\nYour credentials are invalid. Please run "opti-dxp-cli auth:login" with correct credentials.')
       } else {
         logError(`Authentication test failed: ${formatError(error)}`)
         this.log('\\nThis could indicate:')

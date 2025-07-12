@@ -12,8 +12,8 @@ The export will be saved to the storage container and can be downloaded later.
 `
 
   static override examples = [
-    '$ opti database export --environment=production',
-    '$ opti database export --environment=integration --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli database export --environment=production',
+    '$ opti-dxp-cli database export --environment=integration --project-id=12345678-1234-1234-1234-123456789012',
   ]
 
   static override flags = {

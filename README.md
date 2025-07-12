@@ -18,12 +18,43 @@ The Optimizely DXP CLI provides a cross-platform, modern alternative to the lega
 
 ## Installation
 
-### Prerequisites
+### Option 1: Install Globally
 
+Install the package globally to use the `opti-dxp-cli` command anywhere:
+
+```bash
+# Using npm
+npm install -g opti-dxp-cli
+
+# Using yarn
+yarn global add opti-dxp-cli
+
+# Using pnpm
+pnpm add -g opti-dxp-cli
+
+# Using bun
+bun add -g opti-dxp-cli
+```
+
+### Option 2: Use with npx (No Installation Required)
+
+Run commands directly without installing using npx:
+
+```bash
+# No installation needed - npx will download and run the package
+npx opti-dxp-cli auth:login
+npx opti-dxp-cli package:create ./my-app --type=cms
+```
+
+### Option 3: Development Setup
+
+For development and contributions:
+
+#### Prerequisites
 - Node.js 18 or higher
 - Yarn 4.x (installed via corepack)
 
-### Install Dependencies
+#### Install Dependencies
 
 ```bash
 # Enable corepack for Yarn 4.x
@@ -43,7 +74,11 @@ yarn build
 First, authenticate with your DXP Cloud credentials:
 
 ```bash
-yarn node ./bin/run.js auth:login
+# If installed globally
+opti-dxp-cli auth:login
+
+# Or using npx (no installation needed)
+npx opti-dxp-cli auth:login
 ```
 
 You'll be prompted for:
@@ -56,7 +91,11 @@ You'll be prompted for:
 Create a deployment package from your application directory:
 
 ```bash
-yarn node ./bin/run.js package:create ./my-app --type=head --prefix=my-app --version=1.0.0
+# If installed globally
+opti-dxp-cli package:create ./my-app --type=head --prefix=my-app --version=1.0.0
+
+# Or using npx
+npx opti-dxp-cli package:create ./my-app --type=head --prefix=my-app --version=1.0.0
 ```
 
 ### 3. Upload a Package
@@ -64,7 +103,11 @@ yarn node ./bin/run.js package:create ./my-app --type=head --prefix=my-app --ver
 Upload a deployment package to your project:
 
 ```bash
-yarn node ./bin/run.js package:upload ./my-app.head.app.1.0.0.zip
+# If installed globally
+opti-dxp-cli package:upload ./my-app.head.app.1.0.0.zip
+
+# Or using npx
+npx opti-dxp-cli package:upload ./my-app.head.app.1.0.0.zip
 ```
 
 ### 4. Start a Deployment
@@ -72,7 +115,11 @@ yarn node ./bin/run.js package:upload ./my-app.head.app.1.0.0.zip
 Deploy your package to an environment:
 
 ```bash
-yarn node ./bin/run.js deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
+# If installed globally
+opti-dxp-cli deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
+
+# Or using npx
+npx opti-dxp-cli deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
 ```
 
 ### 5. Monitor Deployment
@@ -80,7 +127,11 @@ yarn node ./bin/run.js deployment:start --target=Test1 --packages=my-app.head.ap
 Check deployment status:
 
 ```bash
-yarn node ./bin/run.js deployment:list
+# If installed globally
+opti-dxp-cli deployment:list
+
+# Or using npx
+npx opti-dxp-cli deployment:list
 ```
 
 ## Commands
@@ -89,104 +140,104 @@ yarn node ./bin/run.js deployment:list
 
 ```bash
 # Login with credentials
-yarn node ./bin/run.js auth:login
+opti-dxp-cli auth:login
 
 # Check authentication status
-yarn node ./bin/run.js auth:status
+opti-dxp-cli auth:status
 
 # Logout and clear credentials
-yarn node ./bin/run.js auth:logout
+opti-dxp-cli auth:logout
 ```
 
 ### Package Management
 
 ```bash
 # Create a package from directory
-yarn node ./bin/run.js package:create ./my-app --type=cms --prefix=mysite --version=1.0.0
+opti-dxp-cli package:create ./my-app --type=cms --prefix=mysite --version=1.0.0
 
 # Create different package types
-yarn node ./bin/run.js package:create ./my-cms-app --type=cms
-yarn node ./bin/run.js package:create ./my-head-app --type=head --prefix=optimizely-one
-yarn node ./bin/run.js package:create ./my-commerce-app --type=commerce --output=./dist
-yarn node ./bin/run.js package:create ./database --type=sqldb --db-type=cms
+opti-dxp-cli package:create ./my-cms-app --type=cms
+opti-dxp-cli package:create ./my-head-app --type=head --prefix=optimizely-one
+opti-dxp-cli package:create ./my-commerce-app --type=commerce --output=./dist
+opti-dxp-cli package:create ./database --type=sqldb --db-type=cms
 
 # Upload a package
-yarn node ./bin/run.js package:upload ./package.zip
+opti-dxp-cli package:upload ./package.zip
 
 # Upload to specific container
-yarn node ./bin/run.js package:upload ./package.zip --container=mysitemedia
+opti-dxp-cli package:upload ./package.zip --container=mysitemedia
 
 # List available packages
-yarn node ./bin/run.js package:list
+opti-dxp-cli package:list
 
 # Get upload URL for manual operations
-yarn node ./bin/run.js package:get-upload-url
+opti-dxp-cli package:get-upload-url
 ```
 
 ### Deployment Management
 
 ```bash
 # Start deployment with packages
-yarn node ./bin/run.js deployment:start --target=Integration --packages=app.zip
+opti-dxp-cli deployment:start --target=Integration --packages=app.zip
 
 # Start deployment and watch progress in real-time
-yarn node ./bin/run.js deployment:start --target=Integration --packages=app.zip --watch
+opti-dxp-cli deployment:start --target=Integration --packages=app.zip --watch
 
 # Start deployment copying from another environment
-yarn node ./bin/run.js deployment:start --target=Production --source=Preproduction
+opti-dxp-cli deployment:start --target=Production --source=Preproduction
 
 # Use maintenance page during deployment
-yarn node ./bin/run.js deployment:start --target=Production --packages=app.zip --maintenance-page
+opti-dxp-cli deployment:start --target=Production --packages=app.zip --maintenance-page
 
 # List all deployments
-yarn node ./bin/run.js deployment:list
+opti-dxp-cli deployment:list
 
 # Get specific deployment details
-yarn node ./bin/run.js deployment:list --deployment-id=12345678-1234-1234-1234-123456789012
+opti-dxp-cli deployment:list --deployment-id=12345678-1234-1234-1234-123456789012
 
 # View detailed deployment logs (warnings, errors, progress)
-yarn node ./bin/run.js deployment:logs 12345678-1234-1234-1234-123456789012
+opti-dxp-cli deployment:logs 12345678-1234-1234-1234-123456789012
 
 # View only deployment errors
-yarn node ./bin/run.js deployment:logs 12345678-1234-1234-1234-123456789012 --errors-only
+opti-dxp-cli deployment:logs 12345678-1234-1234-1234-123456789012 --errors-only
 
 # Watch an existing deployment progress in real-time
-yarn node ./bin/run.js deployment:watch 12345678-1234-1234-1234-123456789012
+opti-dxp-cli deployment:watch 12345678-1234-1234-1234-123456789012
 
 # Complete a deployment
-yarn node ./bin/run.js deployment:complete 12345678-1234-1234-1234-123456789012
+opti-dxp-cli deployment:complete 12345678-1234-1234-1234-123456789012
 
 # Reset a failed deployment
-yarn node ./bin/run.js deployment:reset 12345678-1234-1234-1234-123456789012
+opti-dxp-cli deployment:reset 12345678-1234-1234-1234-123456789012
 ```
 
 ### Database Operations
 
 ```bash
 # Export database
-yarn node ./bin/run.js database:export --environment=Production
+opti-dxp-cli database:export --environment=Production
 
 # List database exports
-yarn node ./bin/run.js database:list
+opti-dxp-cli database:list
 ```
 
 ### Log Management
 
 ```bash
 # Get edge logs location (CDN/edge server logs)
-yarn node ./bin/run.js logs:edge
+opti-dxp-cli logs:edge
 
 # List available log containers for an environment
-yarn node ./bin/run.js logs:containers --environment=Production
+opti-dxp-cli logs:containers --environment=Production
 
 # List only writable log containers
-yarn node ./bin/run.js logs:containers --environment=Integration --writable-only
+opti-dxp-cli logs:containers --environment=Integration --writable-only
 
 # Get SAS URL for accessing specific log container
-yarn node ./bin/run.js logs:access --environment=Production --container=azure-application-logs
+opti-dxp-cli logs:access --environment=Production --container=azure-application-logs
 
 # Get SAS URL with longer retention and write access
-yarn node ./bin/run.js logs:access --environment=Production --container=azure-web-logs --retention-hours=48 --writable
+opti-dxp-cli logs:access --environment=Production --container=azure-web-logs --retention-hours=48 --writable
 ```
 
 ## Configuration
@@ -216,13 +267,13 @@ Use the `package:create` command to automatically create properly named packages
 
 ```bash
 # Creates mysite.cms.app.1.0.0.nupkg
-yarn node ./bin/run.js package:create ./my-cms-app --type=cms --prefix=mysite --version=1.0.0
+opti-dxp-cli package:create ./my-cms-app --type=cms --prefix=mysite --version=1.0.0
 
 # Creates optimizely-one.head.app.20250712.zip (uses current date if no version)
-yarn node ./bin/run.js package:create ./my-head-app --type=head --prefix=optimizely-one
+opti-dxp-cli package:create ./my-head-app --type=head --prefix=optimizely-one
 
 # Creates commerce.app.1.0.0.nupkg (no prefix)
-yarn node ./bin/run.js package:create ./my-commerce-app --type=commerce --version=1.0.0
+opti-dxp-cli package:create ./my-commerce-app --type=commerce --version=1.0.0
 ```
 
 #### Package Contents:
@@ -317,18 +368,18 @@ The Node.js CLI provides these improvements over the PowerShell module:
 
 | PowerShell Command | Node.js CLI Command |
 |-------------------|---------------------|
-| `Connect-EpiCloud` | `opti auth:login` |
-| `Get-EpiDeployment` | `opti deployment:list` |
-| `Start-EpiDeployment` | `opti deployment:start` |
-| `Complete-EpiDeployment` | `opti deployment:complete` |
-| `Reset-EpiDeployment` | `opti deployment:reset` |
-| `Add-EpiDeploymentPackage` | `opti package:upload` |
-| **(New)** Package Creation | `opti package:create` |
-| `Start-EpiDatabaseExport` | `opti database:export` |
-| `Get-EpiDatabaseExport` | `opti database:list` |
-| `Get-EpiEdgeLogLocation` | `opti logs:edge` |
-| `Get-EpiStorageContainer` | `opti logs:containers` |
-| `Get-EpiStorageContainerSasLink` | `opti logs:access` |
+| `Connect-EpiCloud` | `opti-dxp-cli auth:login` |
+| `Get-EpiDeployment` | `opti-dxp-cli deployment:list` |
+| `Start-EpiDeployment` | `opti-dxp-cli deployment:start` |
+| `Complete-EpiDeployment` | `opti-dxp-cli deployment:complete` |
+| `Reset-EpiDeployment` | `opti-dxp-cli deployment:reset` |
+| `Add-EpiDeploymentPackage` | `opti-dxp-cli package:upload` |
+| Package Creation | `opti-dxp-cli package:create` |
+| `Start-EpiDatabaseExport` | `opti-dxp-cli database:export` |
+| `Get-EpiDatabaseExport` | `opti-dxp-cli database:list` |
+| `Get-EpiEdgeLogLocation` | `opti-dxp-cli logs:edge` |
+| `Get-EpiStorageContainer` | `opti-dxp-cli logs:containers` |
+| `Get-EpiStorageContainerSasLink` | `opti-dxp-cli logs:access` |
 
 ## Troubleshooting
 
@@ -337,11 +388,11 @@ The Node.js CLI provides these improvements over the PowerShell module:
 **Authentication Failed**
 ```bash
 # Check credentials are valid
-yarn node ./bin/run.js auth:status
+opti-dxp-cli auth:status
 
 # Re-authenticate
-yarn node ./bin/run.js auth:logout
-yarn node ./bin/run.js auth:login
+opti-dxp-cli auth:logout
+opti-dxp-cli auth:login
 ```
 
 **Package Creation Failed**
@@ -349,7 +400,7 @@ yarn node ./bin/run.js auth:login
 # Ensure source directory exists and is readable
 # Check .gitignore syntax if using custom patterns
 # Verify sufficient disk space for package creation
-yarn node ./bin/run.js package:create ./my-app --type=cms --prefix=mysite
+opti-dxp-cli package:create ./my-app --type=cms --prefix=mysite
 ```
 
 **Package Upload Failed**
@@ -362,10 +413,10 @@ yarn node ./bin/run.js package:create ./my-app --type=cms --prefix=mysite
 **Deployment Failed**
 ```bash
 # Check deployment details for errors
-yarn node ./bin/run.js deployment:list --deployment-id=<id>
+opti-dxp-cli deployment:list --deployment-id=<id>
 
 # Reset and retry
-yarn node ./bin/run.js deployment:reset <deployment-id>
+opti-dxp-cli deployment:reset <deployment-id>
 ```
 
 ### Debug Mode
@@ -373,7 +424,7 @@ yarn node ./bin/run.js deployment:reset <deployment-id>
 Enable verbose logging by setting the debug environment variable:
 
 ```bash
-DEBUG=opti-dxp-cli* yarn node ./bin/run.js [command]
+DEBUG=opti-dxp-cli* opti-dxp-cli [command]
 ```
 
 ## Contributing

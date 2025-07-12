@@ -19,9 +19,9 @@ Polls the API at regular intervals to track progress, status changes, and log ev
 `
 
   static override examples = [
-    '$ opti deployment watch 12345678-1234-1234-1234-123456789012',
-    '$ opti deployment watch 12345678-1234-1234-1234-123456789012 --poll-interval=30',
-    '$ opti deployment watch 12345678-1234-1234-1234-123456789012 --project-id=87654321-4321-4321-4321-210987654321',
+    '$ opti-dxp-cli deployment watch 12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli deployment watch 12345678-1234-1234-1234-123456789012 --poll-interval=30',
+    '$ opti-dxp-cli deployment watch 12345678-1234-1234-1234-123456789012 --project-id=87654321-4321-4321-4321-210987654321',
   ]
 
   static override args = {
@@ -110,9 +110,9 @@ Polls the API at regular intervals to track progress, status changes, and log ev
       if (status === 'succeeded' || status === 'failed' || status === 'awaitingverification') {
         logInfo(`Deployment is already in final state: ${formatDeploymentStatus(deployment.status)}`)
         if (status === 'failed') {
-          this.log(`Use "opti deployment logs ${deployment.id}" to see error details`)
+          this.log(`Use "opti-dxp-cli deployment:logs ${deployment.id}" to see error details`)
         } else if (status === 'awaitingverification') {
-          this.log(`Use "opti deployment complete ${deployment.id}" to complete the deployment`)
+          this.log(`Use "opti-dxp-cli deployment:complete ${deployment.id}" to complete the deployment`)
         }
         return
       }
@@ -191,8 +191,8 @@ Polls the API at regular intervals to track progress, status changes, and log ev
           
           if (!continueOnErrors) {
             logError('Errors detected during deployment. Exiting watch mode.')
-            this.log(`📋 Use "opti deployment logs ${deploymentId}" for full details`)
-            this.log(`🔄 Use "opti deployment reset ${deploymentId}" to reset and retry`)
+            this.log(`📋 Use "opti-dxp-cli deployment:logs ${deploymentId}" for full details`)
+            this.log(`🔄 Use "opti-dxp-cli deployment:reset ${deploymentId}" to reset and retry`)
             this.log(`💡 Use --continue-on-errors to keep watching despite errors`)
             break
           } else {
@@ -223,13 +223,13 @@ Polls the API at regular intervals to track progress, status changes, and log ev
           if (currentErrorCount > 0) {
             this.log(`❌ ${currentErrorCount} error(s) recorded`)
           }
-          this.log(`📋 Use "opti deployment logs ${deploymentId}" for detailed error information`)
-          this.log(`🔄 Use "opti deployment reset ${deploymentId}" to reset and retry`)
+          this.log(`📋 Use "opti-dxp-cli deployment:logs ${deploymentId}" for detailed error information`)
+          this.log(`🔄 Use "opti-dxp-cli deployment:reset ${deploymentId}" to reset and retry`)
           break
         } else if (currentStatus.toLowerCase() === 'awaitingverification') {
           this.log('')
           logInfo(`✋ Deployment is awaiting verification`)
-          this.log(`✅ Use "opti deployment complete ${deploymentId}" when ready to complete`)
+          this.log(`✅ Use "opti-dxp-cli deployment:complete ${deploymentId}" when ready to complete`)
           break
         }
 

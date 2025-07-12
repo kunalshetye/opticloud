@@ -33,11 +33,11 @@ The created package respects .gitignore files in the source directory.
 `
 
   static override examples = [
-    '$ opti package create ./my-cms-app --type=cms',
-    '$ opti package create ./my-head-app --type=head --version=2.1.0 --prefix=optimizely-one',
-    '$ opti package create ./my-commerce-app --type=commerce --output=./dist',
-    '$ opti package create ./database --type=sqldb --version=1.0.0',
-    '$ opti package create ./my-app --type=cms --prefix=mysite --output=./packages',
+    '$ opti-dxp-cli package:create ./my-cms-app --type=cms',
+    '$ opti-dxp-cli package:create ./my-head-app --type=head --version=2.1.0 --prefix=optimizely-one',
+    '$ opti-dxp-cli package:create ./my-commerce-app --type=commerce --output=./dist',
+    '$ opti-dxp-cli package:create ./database --type=sqldb --version=1.0.0',
+    '$ opti-dxp-cli package:create ./my-app --type=cms --prefix=mysite --output=./packages',
   ]
 
   static override args = {

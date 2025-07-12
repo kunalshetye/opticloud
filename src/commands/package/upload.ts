@@ -17,12 +17,12 @@ The file will be uploaded to Azure Storage using a secure SAS URL.
 `
 
   static override examples = [
-    '$ opti package upload ./site.cms.app.1.0.0.nupkg',
-    '$ opti package upload ./optimizely-one.head.app.20250610.zip',
-    '$ opti package upload ./package.zip --project-id=12345678-1234-1234-1234-123456789012',
-    '$ opti package upload ./package.zip --blob-name=custom-name.zip',
-    '$ opti package upload ./package.zip --container=mysitemedia',
-    '$ opti package upload ./package.zip --container=deploymentpackages --environment=Preproduction',
+    '$ opti-dxp-cli package upload ./site.cms.app.1.0.0.nupkg',
+    '$ opti-dxp-cli package upload ./optimizely-one.head.app.20250610.zip',
+    '$ opti-dxp-cli package upload ./package.zip --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli package upload ./package.zip --blob-name=custom-name.zip',
+    '$ opti-dxp-cli package upload ./package.zip --container=mysitemedia',
+    '$ opti-dxp-cli package upload ./package.zip --container=deploymentpackages --environment=Preproduction',
   ]
 
   static override args = {

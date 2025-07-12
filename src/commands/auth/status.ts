@@ -13,8 +13,8 @@ Shows masked credentials, current API endpoint settings, and validates credentia
 `
 
   static override examples = [
-    '$ opti auth status',
-    '$ opti auth status --skip-validation',
+    '$ opti-dxp-cli auth status',
+    '$ opti-dxp-cli auth status --skip-validation',
   ]
 
   static override flags = {
@@ -29,7 +29,7 @@ Shows masked credentials, current API endpoint settings, and validates credentia
     const hasCredentials = await auth.hasCredentials()
 
     if (!hasCredentials) {
-      this.log('Not authenticated. Run "opti auth login" to authenticate.')
+      this.log('Not authenticated. Run "opti-dxp-cli auth:login" to authenticate.')
       return
     }
 
@@ -74,7 +74,7 @@ Shows masked credentials, current API endpoint settings, and validates credentia
           }
         } else {
           this.log('Credential Status: ✗ Invalid or expired')
-          this.log('  Run "opti auth login" to refresh your credentials')
+          this.log('  Run "opti-dxp-cli auth:login" to refresh your credentials')
         }
       } catch (error) {
         spinner.stop()

@@ -14,9 +14,9 @@ Shows package names, sizes, and upload dates.
 `
 
   static override examples = [
-    '$ opti package list',
-    '$ opti package list --project-id=12345678-1234-1234-1234-123456789012',
-    '$ opti package list --json',
+    '$ opti-dxp-cli package list',
+    '$ opti-dxp-cli package list --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli package list --json',
   ]
 
   static override flags = {

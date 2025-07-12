@@ -11,10 +11,10 @@ This shows the deployment process logs, not application runtime logs.
 `
 
   static override examples = [
-    '$ opti deployment logs 12345678-1234-1234-1234-123456789012',
-    '$ opti deployment logs 12345678-1234-1234-1234-123456789012 --project-id=87654321-4321-4321-4321-210987654321',
-    '$ opti deployment logs 12345678-1234-1234-1234-123456789012 --json',
-    '$ opti deployment logs 12345678-1234-1234-1234-123456789012 --errors-only',
+    '$ opti-dxp-cli deployment logs 12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli deployment logs 12345678-1234-1234-1234-123456789012 --project-id=87654321-4321-4321-4321-210987654321',
+    '$ opti-dxp-cli deployment logs 12345678-1234-1234-1234-123456789012 --json',
+    '$ opti-dxp-cli deployment logs 12345678-1234-1234-1234-123456789012 --errors-only',
   ]
 
   static override args = {

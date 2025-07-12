@@ -18,8 +18,8 @@ This moves the deployment from "Awaiting Verification" to "Succeeded" status.
 `
 
   static override examples = [
-    '$ opti deployment complete 87654321-4321-4321-4321-210987654321',
-    '$ opti deployment complete 87654321-4321-4321-4321-210987654321 --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli deployment complete 87654321-4321-4321-4321-210987654321',
+    '$ opti-dxp-cli deployment complete 87654321-4321-4321-4321-210987654321 --project-id=12345678-1234-1234-1234-123456789012',
   ]
 
   static override args = {

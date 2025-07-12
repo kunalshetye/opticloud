@@ -11,10 +11,10 @@ Shows deployment status, target environment, packages, and timestamps.
 `
 
   static override examples = [
-    '$ opti deployment list',
-    '$ opti deployment list --project-id=12345678-1234-1234-1234-123456789012',
-    '$ opti deployment list --deployment-id=87654321-4321-4321-4321-210987654321',
-    '$ opti deployment list --json',
+    '$ opti-dxp-cli deployment list',
+    '$ opti-dxp-cli deployment list --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opti-dxp-cli deployment list --deployment-id=87654321-4321-4321-4321-210987654321',
+    '$ opti-dxp-cli deployment list --json',
   ]
 
   static override flags = {
@@ -104,7 +104,7 @@ Shows deployment status, target environment, packages, and timestamps.
         if (warningCount > 0 || errorCount > 0) {
           this.log(`Logs: ${errorCount} error(s), ${warningCount} warning(s)`)
           if (errorCount > 0 || warningCount > 0) {
-            this.log(`      Use "opti deployment logs ${deployment.id}" for details`)
+            this.log(`      Use "opti-dxp-cli deployment:logs ${deployment.id}" for details`)
           }
         }
 
