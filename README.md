@@ -9,7 +9,7 @@ The Optimizely DXP CLI provides a cross-platform, modern alternative to the lega
 ## Features
 
 - 🔐 **Secure Authentication** - HMAC-SHA256 authentication with secure credential storage
-- 📦 **Package Management** - Upload and manage deployment packages
+- 📦 **Package Management** - Create, upload and manage deployment packages
 - 🚀 **Deployment Control** - Start, monitor, complete, and reset deployments
 - 🗄️ **Database Operations** - Export and manage database operations
 - 🌍 **Cross-Platform** - Works on Windows, macOS, and Linux
@@ -51,7 +51,15 @@ You'll be prompted for:
 - Client Secret (from DXP Cloud portal)
 - Project ID (GUID of your DXP project)
 
-### 2. Upload a Package
+### 2. Create a Package
+
+Create a deployment package from your application directory:
+
+```bash
+yarn node ./bin/run.js package:create ./my-app --type=head --prefix=my-app --version=1.0.0
+```
+
+### 3. Upload a Package
 
 Upload a deployment package to your project:
 
@@ -59,7 +67,7 @@ Upload a deployment package to your project:
 yarn node ./bin/run.js package:upload ./my-app.head.app.1.0.0.zip
 ```
 
-### 3. Start a Deployment
+### 4. Start a Deployment
 
 Deploy your package to an environment:
 
@@ -67,7 +75,7 @@ Deploy your package to an environment:
 yarn node ./bin/run.js deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
 ```
 
-### 4. Monitor Deployment
+### 5. Monitor Deployment
 
 Check deployment status:
 
@@ -93,6 +101,15 @@ yarn node ./bin/run.js auth:logout
 ### Package Management
 
 ```bash
+# Create a package from directory
+yarn node ./bin/run.js package:create ./my-app --type=cms --prefix=mysite --version=1.0.0
+
+# Create different package types
+yarn node ./bin/run.js package:create ./my-cms-app --type=cms
+yarn node ./bin/run.js package:create ./my-head-app --type=head --prefix=optimizely-one
+yarn node ./bin/run.js package:create ./my-commerce-app --type=commerce --output=./dist
+yarn node ./bin/run.js package:create ./database --type=sqldb --db-type=cms
+
 # Upload a package
 yarn node ./bin/run.js package:upload ./package.zip
 
@@ -184,16 +201,36 @@ export OPTI_CLIENT_KEY="your-client-key"
 export OPTI_CLIENT_SECRET="your-client-secret"
 ```
 
-### Package Naming Requirements
+### Package Creation and Naming
 
-Deployment packages must follow these naming patterns:
+The CLI automatically creates packages with the correct naming patterns and file extensions:
 
-- **CMS Apps**: `[prefix.]cms.app.<version>.nupkg` or `[prefix.]cms.app.<version>.zip`
-- **Commerce Apps**: `[prefix.]commerce.app.<version>.nupkg` or `[prefix.]commerce.app.<version>.zip`
-- **Head Apps**: `[prefix.]head.app.<version>.nupkg` or `[prefix.]head.app.<version>.zip`
+#### Package Types and Extensions:
+- **CMS Apps**: `[prefix.]cms.app.<version>.nupkg` (NuGet package format)
+- **Commerce Apps**: `[prefix.]commerce.app.<version>.nupkg` (NuGet package format)
+- **Head Apps**: `[prefix.]head.app.<version>.zip` (ZIP format)
 - **Databases**: `[prefix.]cms.sqldb.<version>.bacpac` or `[prefix.]commerce.sqldb.<version>.bacpac`
 
-Examples:
+#### Creating Packages:
+Use the `package:create` command to automatically create properly named packages:
+
+```bash
+# Creates mysite.cms.app.1.0.0.nupkg
+yarn node ./bin/run.js package:create ./my-cms-app --type=cms --prefix=mysite --version=1.0.0
+
+# Creates optimizely-one.head.app.20250712.zip (uses current date if no version)
+yarn node ./bin/run.js package:create ./my-head-app --type=head --prefix=optimizely-one
+
+# Creates commerce.app.1.0.0.nupkg (no prefix)
+yarn node ./bin/run.js package:create ./my-commerce-app --type=commerce --version=1.0.0
+```
+
+#### Package Contents:
+- Packages the **contents** of the directory recursively (not the directory itself)
+- Respects `.gitignore` files in the source directory
+- Excludes common build artifacts (node_modules/, .DS_Store, etc.)
+
+#### Manual Package Examples:
 - `mysite.cms.app.1.0.0.nupkg`
 - `optimizely-one.head.app.20250610.zip`
 - `ecommerce.commerce.sqldb.2.1.0.bacpac`
@@ -269,6 +306,7 @@ The Node.js CLI provides these improvements over the PowerShell module:
 
 ### Enhanced Features
 - **Cross-platform support** - Works on Windows, macOS, Linux
+- **Package creation** - Create packages directly from source directories
 - **Better error messages** - Clear, actionable error information
 - **Interactive prompts** - Guided workflows for complex operations
 - **JSON output** - Scriptable output format
@@ -285,6 +323,7 @@ The Node.js CLI provides these improvements over the PowerShell module:
 | `Complete-EpiDeployment` | `opti deployment:complete` |
 | `Reset-EpiDeployment` | `opti deployment:reset` |
 | `Add-EpiDeploymentPackage` | `opti package:upload` |
+| **(New)** Package Creation | `opti package:create` |
 | `Start-EpiDatabaseExport` | `opti database:export` |
 | `Get-EpiDatabaseExport` | `opti database:list` |
 | `Get-EpiEdgeLogLocation` | `opti logs:edge` |
@@ -303,6 +342,14 @@ yarn node ./bin/run.js auth:status
 # Re-authenticate
 yarn node ./bin/run.js auth:logout
 yarn node ./bin/run.js auth:login
+```
+
+**Package Creation Failed**
+```bash
+# Ensure source directory exists and is readable
+# Check .gitignore syntax if using custom patterns
+# Verify sufficient disk space for package creation
+yarn node ./bin/run.js package:create ./my-app --type=cms --prefix=mysite
 ```
 
 **Package Upload Failed**
