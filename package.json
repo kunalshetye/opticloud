@@ -1,0 +1,101 @@
+{
+  "name": "opti-dxp-cli",
+  "version": "0.0.1",
+  "description": "Command line interface for Optimizely DXP Cloud operations",
+  "author": "Kunal Shetye",
+  "bin": {
+    "opti": "./bin/run.js"
+  },
+  "homepage": "https://github.com/kunalshetye/opti-dxp-cli",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": "kunalshetye/opti-dxp-cli",
+  "files": [
+    "/bin",
+    "/dist",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "dependencies": {
+    "@oclif/core": "^4",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5",
+    "axios": "^1.7.7",
+    "chalk": "^5.3.0",
+    "conf": "^13.0.1",
+    "inquirer": "^12.1.0",
+    "keytar": "^7.9.0",
+    "ora": "^8.1.1",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^4",
+    "@types/chai": "^5",
+    "@types/inquirer": "^9.0.7",
+    "@types/mocha": "^10",
+    "@types/node": "^18",
+    "chai": "^5",
+    "eslint": "^8.57.1",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3",
+    "mocha": "^10",
+    "oclif": "^4",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "oclif": {
+    "bin": "opti",
+    "dirname": "opti-dxp-cli",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": ":",
+    "topics": {
+      "auth": {
+        "description": "Authentication commands"
+      },
+      "deployment": {
+        "description": "Deployment management commands"
+      },
+      "package": {
+        "description": "Package management commands"
+      },
+      "database": {
+        "description": "Database export commands"
+      },
+      "storage": {
+        "description": "Storage management commands"
+      },
+      "logs": {
+        "description": "Log retrieval commands"
+      }
+    }
+  },
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "yarn lint",
+    "prepack": "yarn build && oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "oclif",
+    "optimizely",
+    "dxp",
+    "frontend",
+    "cloud",
+    "cli",
+    "deployment"
+  ],
+  "types": "dist/index.d.ts",
+  "packageManager": "yarn@4.9.2"
+}
