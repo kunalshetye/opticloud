@@ -665,6 +665,59 @@ The Node.js CLI provides these improvements over the PowerShell module:
 | `Get-EpiStorageContainer` | `opticloud logs:containers` |
 | `Get-EpiStorageContainerSasLink` | `opticloud logs:access` |
 
+## CI/CD Integration
+
+The `opticloud` CLI is designed for seamless integration into CI/CD pipelines, enabling automated deployments to Optimizely DXP Cloud.
+
+### GitHub Actions
+
+For complete GitHub Actions integration examples, see our [GitHub Actions Guide](docs/github-actions.md).
+
+**Quick Example:**
+```yaml
+- name: Deploy to DXP Cloud
+  run: |
+    npx @kunalshetye/opticloud ship ./dist \
+      --target=production \
+      --type=head \
+      --prefix=mysite \
+      --client-key=${{ secrets.DXP_CLIENT_KEY }} \
+      --client-secret=${{ secrets.DXP_CLIENT_SECRET }} \
+      --project-id=${{ secrets.DXP_PROJECT_ID }}
+```
+
+### Key CI/CD Features
+
+- **🔐 Secure Authentication** - Use environment variables and secrets for credentials
+- **📦 Automated Packaging** - The `ship` command handles package creation automatically  
+- **🎯 Environment Targeting** - Deploy to different environments based on branch conditions
+- **📊 JSON Output** - Machine-readable output for integration with other tools
+- **⚡ Fast Deployment** - Optimized compression and upload processes
+- **🔄 Error Handling** - Graceful failure handling with detailed error messages
+
+### Other CI/CD Platforms
+
+The CLI works with any CI/CD platform that supports Node.js:
+
+- **GitLab CI**: Use `npx @kunalshetye/opticloud` in your `.gitlab-ci.yml`
+- **Azure DevOps**: Install via npm task and run in PowerShell/Bash
+- **Jenkins**: Use in Node.js build steps
+- **CircleCI**: Install and run in your config.yml workflows
+
+### Environment Variables
+
+All CLI options can be set via environment variables for CI/CD:
+
+```bash
+export OPTI_PROJECT_ID="12345678-1234-1234-1234-123456789012"
+export OPTI_CLIENT_KEY="your-client-key"
+export OPTI_CLIENT_SECRET="your-client-secret"
+export OPTI_API_ENDPOINT="https://paasportal.episerver.net/api/v1.0/"
+
+# Now deploy without credentials in command
+opticloud ship ./app --target=production --type=head
+```
+
 ## Troubleshooting
 
 ### Common Issues
