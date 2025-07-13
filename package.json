@@ -1,15 +1,15 @@
 {
-  "name": "opti-dxp-cli",
+  "name": "opticloud",
   "version": "0.0.1",
   "description": "Command line interface for Optimizely DXP Cloud operations",
   "author": "Kunal Shetye",
   "bin": {
-    "opti-dxp-cli": "./bin/run.js"
+    "opticloud": "./bin/run.js"
   },
-  "homepage": "https://github.com/kunalshetye/opti-dxp-cli",
+  "homepage": "https://github.com/kunalshetye/opticloud",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "kunalshetye/opti-dxp-cli",
+  "repository": "kunalshetye/opticloud",
   "files": [
     "/bin",
     "/dist",
@@ -49,8 +49,8 @@
     "typescript": "^5.6.3"
   },
   "oclif": {
-    "bin": "opti-dxp-cli",
-    "dirname": "opti-dxp-cli",
+    "bin": "opticloud",
+    "dirname": "opticloud",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",

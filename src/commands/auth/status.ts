@@ -13,8 +13,8 @@ Shows masked credentials, current API endpoint settings, and validates credentia
 `
 
   static override examples = [
-    '$ opti-dxp-cli auth status',
-    '$ opti-dxp-cli auth status --skip-validation',
+    '$ opticloud auth status',
+    '$ opticloud auth status --skip-validation',
   ]
 
   static override flags = {
@@ -29,7 +29,7 @@ Shows masked credentials, current API endpoint settings, and validates credentia
     const hasCredentials = await auth.hasCredentials()
 
     if (!hasCredentials) {
-      this.log('Not authenticated. Run "opti-dxp-cli auth:login" to authenticate.')
+      this.log('Not authenticated. Run "opticloud auth:login" to authenticate.')
       return
     }
 
@@ -42,7 +42,7 @@ Shows masked credentials, current API endpoint settings, and validates credentia
     this.log(`  Client Key: ${credentials?.clientKey?.slice(0, 8)}...`)
     this.log(`  Project ID: ${credentials?.projectId || 'Not set'}`)
     this.log('')
-    this.log('Configuration (stored in ~/.config/opti-dxp-cli/config.json):')
+    this.log('Configuration (stored in ~/.config/opticloud/config.json):')
     this.log(`  API Endpoint: ${configData.apiEndpoint}`)
     this.log(`  Default Project ID: ${configData.defaultProjectId || 'Not set'}`)
     this.log('')
@@ -74,7 +74,7 @@ Shows masked credentials, current API endpoint settings, and validates credentia
           }
         } else {
           this.log('Credential Status: ✗ Invalid or expired')
-          this.log('  Run "opti-dxp-cli auth:login" to refresh your credentials')
+          this.log('  Run "opticloud auth:login" to refresh your credentials')
         }
       } catch (error) {
         spinner.stop()

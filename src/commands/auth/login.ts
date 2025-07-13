@@ -19,10 +19,10 @@ Use --skip-validation to bypass this check for testing or offline scenarios.
 `
 
   static override examples = [
-    '$ opti-dxp-cli auth:login',
-    '$ opti-dxp-cli auth:login --client-key=YOUR_KEY --client-secret=YOUR_SECRET',
-    '$ opti-dxp-cli auth:login --project-id=12345678-1234-1234-1234-123456789012',
-    '$ opti-dxp-cli auth:login --skip-validation',
+    '$ opticloud auth:login',
+    '$ opticloud auth:login --client-key=YOUR_KEY --client-secret=YOUR_SECRET',
+    '$ opticloud auth:login --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opticloud auth:login --skip-validation',
   ]
 
   static override flags = {

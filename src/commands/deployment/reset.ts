@@ -21,8 +21,8 @@ Warning: This action cannot be undone.
 `
 
   static override examples = [
-    '$ opti-dxp-cli deployment reset 87654321-4321-4321-4321-210987654321',
-    '$ opti-dxp-cli deployment reset 87654321-4321-4321-4321-210987654321 --force',
+    '$ opticloud deployment reset 87654321-4321-4321-4321-210987654321',
+    '$ opticloud deployment reset 87654321-4321-4321-4321-210987654321 --force',
   ]
 
   static override args = {

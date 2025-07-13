@@ -20,20 +20,20 @@ The Optimizely DXP CLI provides a cross-platform, modern alternative to the lega
 
 ### Option 1: Install Globally
 
-Install the package globally to use the `opti-dxp-cli` command anywhere:
+Install the package globally to use the `opticloud` command anywhere:
 
 ```bash
 # Using npm
-npm install -g opti-dxp-cli
+npm install -g opticloud
 
 # Using yarn
-yarn global add opti-dxp-cli
+yarn global add opticloud
 
 # Using pnpm
-pnpm add -g opti-dxp-cli
+pnpm add -g opticloud
 
 # Using bun
-bun add -g opti-dxp-cli
+bun add -g opticloud
 ```
 
 ### Option 2: Use with npx (No Installation Required)
@@ -42,8 +42,8 @@ Run commands directly without installing using npx:
 
 ```bash
 # No installation needed - npx will download and run the package
-npx opti-dxp-cli auth:login
-npx opti-dxp-cli package:create ./my-app --type=cms
+npx opticloud auth:login
+npx opticloud package:create ./my-app --type=cms
 ```
 
 ### Option 3: Development Setup
@@ -75,10 +75,10 @@ First, authenticate with your DXP Cloud credentials:
 
 ```bash
 # If installed globally
-opti-dxp-cli auth:login
+opticloud auth:login
 
 # Or using npx (no installation needed)
-npx opti-dxp-cli auth:login
+npx opticloud auth:login
 ```
 
 You'll be prompted for:
@@ -92,10 +92,10 @@ Create a deployment package from your application directory:
 
 ```bash
 # If installed globally
-opti-dxp-cli package:create ./my-app --type=head --prefix=my-app --version=1.0.0
+opticloud package:create ./my-app --type=head --prefix=my-app --version=1.0.0
 
 # Or using npx
-npx opti-dxp-cli package:create ./my-app --type=head --prefix=my-app --version=1.0.0
+npx opticloud package:create ./my-app --type=head --prefix=my-app --version=1.0.0
 ```
 
 ### 3. Upload a Package
@@ -104,10 +104,10 @@ Upload a deployment package to your project:
 
 ```bash
 # If installed globally
-opti-dxp-cli package:upload ./my-app.head.app.1.0.0.zip
+opticloud package:upload ./my-app.head.app.1.0.0.zip
 
 # Or using npx
-npx opti-dxp-cli package:upload ./my-app.head.app.1.0.0.zip
+npx opticloud package:upload ./my-app.head.app.1.0.0.zip
 ```
 
 ### 4. Start a Deployment
@@ -116,10 +116,10 @@ Deploy your package to an environment:
 
 ```bash
 # If installed globally
-opti-dxp-cli deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
+opticloud deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
 
 # Or using npx
-npx opti-dxp-cli deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
+npx opticloud deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
 ```
 
 ### 5. Monitor Deployment
@@ -128,11 +128,32 @@ Check deployment status:
 
 ```bash
 # If installed globally
-opti-dxp-cli deployment:list
+opticloud deployment:list
 
 # Or using npx
-npx opti-dxp-cli deployment:list
+npx opticloud deployment:list
 ```
+
+## One-Shot Deployment 🚀
+
+For the ultimate streamlined experience, use the `deployment:deploy` command to execute the entire workflow in one command:
+
+```bash
+# Complete deployment workflow in one command
+opticloud deployment:deploy ../optimizely-one --target=Test1 --type=head --version=20250712 --prefix=optimizely-one
+
+# Deploy with custom credentials (useful for CI/CD or different servers)
+opticloud deployment:deploy ./my-app --target=integration --type=cms --client-key=KEY --client-secret=SECRET
+
+# Deploy to custom DXP environment
+opticloud deployment:deploy ./my-app --target=production --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/
+```
+
+This single command will:
+1. 📦 Create package from your directory
+2. ⬆️ Upload package to DXP Cloud storage
+3. 🚀 Start deployment with real-time progress monitoring
+4. ✅ Automatically complete deployment when ready
 
 ## Commands
 
@@ -140,107 +161,118 @@ npx opti-dxp-cli deployment:list
 
 ```bash
 # Login with credentials
-opti-dxp-cli auth:login
+opticloud auth:login
 
 # Check authentication status
-opti-dxp-cli auth:status
+opticloud auth:status
 
 # Logout and clear credentials
-opti-dxp-cli auth:logout
+opticloud auth:logout
 ```
 
 ### Package Management
 
 ```bash
 # Create a package from directory
-opti-dxp-cli package:create ./my-app --type=cms --prefix=mysite --version=1.0.0
+opticloud package:create ./my-app --type=cms --prefix=mysite --version=1.0.0
 
 # Create different package types
-opti-dxp-cli package:create ./my-cms-app --type=cms
-opti-dxp-cli package:create ./my-head-app --type=head --prefix=optimizely-one
-opti-dxp-cli package:create ./my-commerce-app --type=commerce --output=./dist
-opti-dxp-cli package:create ./database --type=sqldb --db-type=cms
+opticloud package:create ./my-cms-app --type=cms
+opticloud package:create ./my-head-app --type=head --prefix=optimizely-one
+opticloud package:create ./my-commerce-app --type=commerce --output=./dist
+opticloud package:create ./database --type=sqldb --db-type=cms
 
 # Upload a package
-opti-dxp-cli package:upload ./package.zip
+opticloud package:upload ./package.zip
 
 # Upload to specific container
-opti-dxp-cli package:upload ./package.zip --container=mysitemedia
+opticloud package:upload ./package.zip --container=mysitemedia
 
 # List available packages
-opti-dxp-cli package:list
+opticloud package:list
 
 # Get upload URL for manual operations
-opti-dxp-cli package:get-upload-url
+opticloud package:get-upload-url
 ```
 
 ### Deployment Management
 
 ```bash
+# One-shot deployment (recommended) - create, upload, deploy, and complete in one command
+opticloud deployment:deploy ./my-app --target=Integration --type=head --prefix=mysite --version=1.0.0
+
+# One-shot deployment with custom credentials (useful for CI/CD)
+opticloud deployment:deploy ./my-app --target=production --type=cms --client-key=KEY --client-secret=SECRET
+
+# One-shot deployment to custom DXP environment
+opticloud deployment:deploy ./my-app --target=Test1 --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/
+
+# Individual deployment steps (for granular control):
+
 # Start deployment with packages
-opti-dxp-cli deployment:start --target=Integration --packages=app.zip
+opticloud deployment:start --target=Integration --packages=app.zip
 
 # Start deployment and watch progress in real-time
-opti-dxp-cli deployment:start --target=Integration --packages=app.zip --watch
+opticloud deployment:start --target=Integration --packages=app.zip --watch
 
 # Start deployment copying from another environment
-opti-dxp-cli deployment:start --target=Production --source=Preproduction
+opticloud deployment:start --target=Production --source=Preproduction
 
 # Use maintenance page during deployment
-opti-dxp-cli deployment:start --target=Production --packages=app.zip --maintenance-page
+opticloud deployment:start --target=Production --packages=app.zip --maintenance-page
 
 # List all deployments
-opti-dxp-cli deployment:list
+opticloud deployment:list
 
 # Get specific deployment details
-opti-dxp-cli deployment:list --deployment-id=12345678-1234-1234-1234-123456789012
+opticloud deployment:list --deployment-id=12345678-1234-1234-1234-123456789012
 
 # View detailed deployment logs (warnings, errors, progress)
-opti-dxp-cli deployment:logs 12345678-1234-1234-1234-123456789012
+opticloud deployment:logs 12345678-1234-1234-1234-123456789012
 
 # View only deployment errors
-opti-dxp-cli deployment:logs 12345678-1234-1234-1234-123456789012 --errors-only
+opticloud deployment:logs 12345678-1234-1234-1234-123456789012 --errors-only
 
 # Watch an existing deployment progress in real-time
-opti-dxp-cli deployment:watch 12345678-1234-1234-1234-123456789012
+opticloud deployment:watch 12345678-1234-1234-1234-123456789012
 
 # Complete a deployment
-opti-dxp-cli deployment:complete 12345678-1234-1234-1234-123456789012
+opticloud deployment:complete 12345678-1234-1234-1234-123456789012
 
 # Complete a deployment and watch progress
-opti-dxp-cli deployment:complete 12345678-1234-1234-1234-123456789012 --watch
+opticloud deployment:complete 12345678-1234-1234-1234-123456789012 --watch
 
 # Reset a failed deployment
-opti-dxp-cli deployment:reset 12345678-1234-1234-1234-123456789012
+opticloud deployment:reset 12345678-1234-1234-1234-123456789012
 ```
 
 ### Database Operations
 
 ```bash
 # Export database
-opti-dxp-cli database:export --environment=Production
+opticloud database:export --environment=Production
 
 # List database exports
-opti-dxp-cli database:list
+opticloud database:list
 ```
 
 ### Log Management
 
 ```bash
 # Get edge logs location (CDN/edge server logs)
-opti-dxp-cli logs:edge
+opticloud logs:edge
 
 # List available log containers for an environment
-opti-dxp-cli logs:containers --environment=Production
+opticloud logs:containers --environment=Production
 
 # List only writable log containers
-opti-dxp-cli logs:containers --environment=Integration --writable-only
+opticloud logs:containers --environment=Integration --writable-only
 
 # Get SAS URL for accessing specific log container
-opti-dxp-cli logs:access --environment=Production --container=azure-application-logs
+opticloud logs:access --environment=Production --container=azure-application-logs
 
 # Get SAS URL with longer retention and write access
-opti-dxp-cli logs:access --environment=Production --container=azure-web-logs --retention-hours=48 --writable
+opticloud logs:access --environment=Production --container=azure-web-logs --retention-hours=48 --writable
 ```
 
 ## Configuration
@@ -270,13 +302,13 @@ Use the `package:create` command to automatically create properly named packages
 
 ```bash
 # Creates mysite.cms.app.1.0.0.nupkg
-opti-dxp-cli package:create ./my-cms-app --type=cms --prefix=mysite --version=1.0.0
+opticloud package:create ./my-cms-app --type=cms --prefix=mysite --version=1.0.0
 
 # Creates optimizely-one.head.app.20250712.zip (uses current date if no version)
-opti-dxp-cli package:create ./my-head-app --type=head --prefix=optimizely-one
+opticloud package:create ./my-head-app --type=head --prefix=optimizely-one
 
 # Creates commerce.app.1.0.0.nupkg (no prefix)
-opti-dxp-cli package:create ./my-commerce-app --type=commerce --version=1.0.0
+opticloud package:create ./my-commerce-app --type=commerce --version=1.0.0
 ```
 
 #### Package Contents:
@@ -371,18 +403,19 @@ The Node.js CLI provides these improvements over the PowerShell module:
 
 | PowerShell Command | Node.js CLI Command |
 |-------------------|---------------------|
-| `Connect-EpiCloud` | `opti-dxp-cli auth:login` |
-| `Get-EpiDeployment` | `opti-dxp-cli deployment:list` |
-| `Start-EpiDeployment` | `opti-dxp-cli deployment:start` |
-| `Complete-EpiDeployment` | `opti-dxp-cli deployment:complete` |
-| `Reset-EpiDeployment` | `opti-dxp-cli deployment:reset` |
-| `Add-EpiDeploymentPackage` | `opti-dxp-cli package:upload` |
-| Package Creation | `opti-dxp-cli package:create` |
-| `Start-EpiDatabaseExport` | `opti-dxp-cli database:export` |
-| `Get-EpiDatabaseExport` | `opti-dxp-cli database:list` |
-| `Get-EpiEdgeLogLocation` | `opti-dxp-cli logs:edge` |
-| `Get-EpiStorageContainer` | `opti-dxp-cli logs:containers` |
-| `Get-EpiStorageContainerSasLink` | `opti-dxp-cli logs:access` |
+| `Connect-EpiCloud` | `opticloud auth:login` |
+| `Get-EpiDeployment` | `opticloud deployment:list` |
+| `Start-EpiDeployment` | `opticloud deployment:start` |
+| `Complete-EpiDeployment` | `opticloud deployment:complete` |
+| `Reset-EpiDeployment` | `opticloud deployment:reset` |
+| `Add-EpiDeploymentPackage` | `opticloud package:upload` |
+| Package Creation | `opticloud package:create` |
+| **Full Deployment Workflow** | **`opticloud deployment:deploy`** ⭐ |
+| `Start-EpiDatabaseExport` | `opticloud database:export` |
+| `Get-EpiDatabaseExport` | `opticloud database:list` |
+| `Get-EpiEdgeLogLocation` | `opticloud logs:edge` |
+| `Get-EpiStorageContainer` | `opticloud logs:containers` |
+| `Get-EpiStorageContainerSasLink` | `opticloud logs:access` |
 
 ## Troubleshooting
 
@@ -391,11 +424,11 @@ The Node.js CLI provides these improvements over the PowerShell module:
 **Authentication Failed**
 ```bash
 # Check credentials are valid
-opti-dxp-cli auth:status
+opticloud auth:status
 
 # Re-authenticate
-opti-dxp-cli auth:logout
-opti-dxp-cli auth:login
+opticloud auth:logout
+opticloud auth:login
 ```
 
 **Package Creation Failed**
@@ -403,7 +436,7 @@ opti-dxp-cli auth:login
 # Ensure source directory exists and is readable
 # Check .gitignore syntax if using custom patterns
 # Verify sufficient disk space for package creation
-opti-dxp-cli package:create ./my-app --type=cms --prefix=mysite
+opticloud package:create ./my-app --type=cms --prefix=mysite
 ```
 
 **Package Upload Failed**
@@ -416,10 +449,10 @@ opti-dxp-cli package:create ./my-app --type=cms --prefix=mysite
 **Deployment Failed**
 ```bash
 # Check deployment details for errors
-opti-dxp-cli deployment:list --deployment-id=<id>
+opticloud deployment:list --deployment-id=<id>
 
 # Reset and retry
-opti-dxp-cli deployment:reset <deployment-id>
+opticloud deployment:reset <deployment-id>
 ```
 
 ### Debug Mode
@@ -427,7 +460,7 @@ opti-dxp-cli deployment:reset <deployment-id>
 Enable verbose logging by setting the debug environment variable:
 
 ```bash
-DEBUG=opti-dxp-cli* opti-dxp-cli [command]
+DEBUG=opticloud* opticloud [command]
 ```
 
 ## Contributing
@@ -451,6 +484,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For issues and feature requests, please use the [GitHub Issues](https://github.com/your-org/opti-dxp-cli/issues) page.
+For issues and feature requests, please use the [GitHub Issues](https://github.com/your-org/opticloud/issues) page.
 
 For Optimizely DXP Cloud platform support, visit the [Optimizely Developer Community](https://world.optimizely.com/community/).

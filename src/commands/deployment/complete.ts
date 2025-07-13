@@ -20,10 +20,10 @@ This moves the deployment from "Awaiting Verification" to "Succeeded" status.
 `
 
   static override examples = [
-    '$ opti-dxp-cli deployment complete 87654321-4321-4321-4321-210987654321',
-    '$ opti-dxp-cli deployment complete 87654321-4321-4321-4321-210987654321 --project-id=12345678-1234-1234-1234-123456789012',
-    '$ opti-dxp-cli deployment complete 87654321-4321-4321-4321-210987654321 --watch',
-    '$ opti-dxp-cli deployment complete 87654321-4321-4321-4321-210987654321 --watch --poll-interval=15',
+    '$ opticloud deployment complete 87654321-4321-4321-4321-210987654321',
+    '$ opticloud deployment complete 87654321-4321-4321-4321-210987654321 --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opticloud deployment complete 87654321-4321-4321-4321-210987654321 --watch',
+    '$ opticloud deployment complete 87654321-4321-4321-4321-210987654321 --watch --poll-interval=15',
   ]
 
   static override args = {
@@ -184,8 +184,8 @@ This moves the deployment from "Awaiting Verification" to "Succeeded" status.
           
           if (!continueOnErrors) {
             logError('Errors detected during deployment. Exiting watch mode.')
-            this.log(`📋 Use "opti-dxp-cli deployment:logs ${deploymentId}" for full details`)
-            this.log(`🔄 Use "opti-dxp-cli deployment:reset ${deploymentId}" to reset and retry`)
+            this.log(`📋 Use "opticloud deployment:logs ${deploymentId}" for full details`)
+            this.log(`🔄 Use "opticloud deployment:reset ${deploymentId}" to reset and retry`)
             this.log(`💡 Use --continue-on-errors to keep watching despite errors`)
             break
           } else {
@@ -206,10 +206,10 @@ This moves the deployment from "Awaiting Verification" to "Succeeded" status.
           logSuccess(`Deployment completed successfully! (${currentProgress}%)`)
           break
         } else if (currentStatus.toLowerCase() === 'failed') {
-          logError(`Deployment failed! Use "opti-dxp-cli deployment:logs ${deploymentId}" for details`)
+          logError(`Deployment failed! Use "opticloud deployment:logs ${deploymentId}" for details`)
           break
         } else if (currentStatus.toLowerCase() === 'awaitingverification') {
-          logInfo(`Deployment is awaiting verification. Use "opti-dxp-cli deployment:complete ${deploymentId}" when ready.`)
+          logInfo(`Deployment is awaiting verification. Use "opticloud deployment:complete ${deploymentId}" when ready.`)
           break
         }
 

@@ -11,8 +11,8 @@ This is useful for testing or manual upload scenarios.
 `
 
   static override examples = [
-    '$ opti-dxp-cli package get-upload-url',
-    '$ opti-dxp-cli package get-upload-url --project-id=12345678-1234-1234-1234-123456789012',
+    '$ opticloud package get-upload-url',
+    '$ opticloud package get-upload-url --project-id=12345678-1234-1234-1234-123456789012',
   ]
 
   static override flags = {

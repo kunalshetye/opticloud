@@ -10,7 +10,7 @@ Remove stored authentication credentials from your system's credential store.
 This will require you to login again before using other commands.
 `
 
-  static override examples = ['$ opti-dxp-cli auth logout']
+  static override examples = ['$ opticloud auth logout']
 
   public async run(): Promise<void> {
     try {

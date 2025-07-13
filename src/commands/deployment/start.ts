@@ -22,13 +22,13 @@ You can deploy from packages or copy from another environment.
 `
 
   static override examples = [
-    '$ opti-dxp-cli deployment start --target=integration',
-    '$ opti-dxp-cli deployment start --target=production --source=preproduction',
-    '$ opti-dxp-cli deployment start --target=integration --packages=site.cms.app.1.0.0.nupkg',
-    '$ opti-dxp-cli deployment start --target=production --maintenance-page',
-    '$ opti-dxp-cli deployment start --target=integration --packages=app.zip --watch',
-    '$ opti-dxp-cli deployment start --target=production --packages=app.zip --watch --poll-interval=30',
-    '$ opti-dxp-cli deployment start --target=integration --packages=app.zip --watch --continue-on-errors',
+    '$ opticloud deployment start --target=integration',
+    '$ opticloud deployment start --target=production --source=preproduction',
+    '$ opticloud deployment start --target=integration --packages=site.cms.app.1.0.0.nupkg',
+    '$ opticloud deployment start --target=production --maintenance-page',
+    '$ opticloud deployment start --target=integration --packages=app.zip --watch',
+    '$ opticloud deployment start --target=production --packages=app.zip --watch --poll-interval=30',
+    '$ opticloud deployment start --target=integration --packages=app.zip --watch --continue-on-errors',
   ]
 
   static override flags = {
@@ -286,8 +286,8 @@ You can deploy from packages or copy from another environment.
           
           if (!continueOnErrors) {
             logError('Errors detected during deployment. Exiting watch mode.')
-            this.log(`📋 Use "opti-dxp-cli deployment:logs ${deploymentId}" for full details`)
-            this.log(`🔄 Use "opti-dxp-cli deployment:reset ${deploymentId}" to reset and retry`)
+            this.log(`📋 Use "opticloud deployment:logs ${deploymentId}" for full details`)
+            this.log(`🔄 Use "opticloud deployment:reset ${deploymentId}" to reset and retry`)
             this.log(`💡 Use --continue-on-errors to keep watching despite errors`)
             break
           } else {
@@ -308,10 +308,10 @@ You can deploy from packages or copy from another environment.
           logSuccess(`Deployment completed successfully! (${currentProgress}%)`)
           break
         } else if (currentStatus.toLowerCase() === 'failed') {
-          logError(`Deployment failed! Use "opti-dxp-cli deployment:logs ${deploymentId}" for details`)
+          logError(`Deployment failed! Use "opticloud deployment:logs ${deploymentId}" for details`)
           break
         } else if (currentStatus.toLowerCase() === 'awaitingverification') {
-          logInfo(`Deployment is awaiting verification. Use "opti-dxp-cli deployment:complete ${deploymentId}" when ready.`)
+          logInfo(`Deployment is awaiting verification. Use "opticloud deployment:complete ${deploymentId}" when ready.`)
           break
         }
 
