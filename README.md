@@ -126,7 +126,7 @@ First, authenticate with your DXP Cloud credentials:
 opticloud auth:login
 
 # Or using npx (no installation needed)
-npx opticloud auth:login
+npx @kunalshetye/opticloud auth:login
 ```
 
 You'll be prompted for:
@@ -143,7 +143,7 @@ Create a deployment package from your application directory:
 opticloud package:create ./my-app --type=head --prefix=my-app --version=1.0.0
 
 # Or using npx
-npx opticloud package:create ./my-app --type=head --prefix=my-app --version=1.0.0
+npx @kunalshetye/opticloud package:create ./my-app --type=head --prefix=my-app --version=1.0.0
 ```
 
 ### 3. Upload a Package
@@ -155,7 +155,7 @@ Upload a deployment package to your project:
 opticloud package:upload ./my-app.head.app.1.0.0.zip
 
 # Or using npx
-npx opticloud package:upload ./my-app.head.app.1.0.0.zip
+npx @kunalshetye/opticloud package:upload ./my-app.head.app.1.0.0.zip
 ```
 
 ### 4. Start a Deployment
@@ -167,7 +167,7 @@ Deploy your package to an environment:
 opticloud deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
 
 # Or using npx
-npx opticloud deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
+npx @kunalshetye/opticloud deployment:start --target=Test1 --packages=my-app.head.app.1.0.0.zip
 ```
 
 ### 5. Monitor Deployment
@@ -179,7 +179,7 @@ Check deployment status:
 opticloud deployment:list
 
 # Or using npx
-npx opticloud deployment:list
+npx @kunalshetye/opticloud deployment:list
 ```
 
 ## Ship Command 🚀
@@ -194,6 +194,9 @@ opticloud ship ./my-app --target=integration --type=cms
 
 # Production deployment with all options
 opticloud ship ./my-app --target=production --type=head --prefix=mysite --version=1.0.0 --output=./packages
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud ship ./my-app --target=integration --type=cms
 ```
 
 ### Complete Workflow
@@ -209,7 +212,11 @@ The `ship` command executes these steps automatically:
 ### Command Syntax
 
 ```bash
+# If installed globally
 opticloud ship <directory> --target=<environment> --type=<package-type> [options]
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud ship <directory> --target=<environment> --type=<package-type> [options]
 ```
 
 ### Required Parameters
@@ -263,6 +270,10 @@ opticloud ship ./frontend --target=production --type=head --prefix=mysite
 
 # Commerce deployment with custom version
 opticloud ship ./commerce --target=Test1 --type=commerce --version=2.1.0
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud ship ./cms-app --target=integration --type=cms
+npx @kunalshetye/opticloud ship ./frontend --target=production --type=head --prefix=mysite
 ```
 
 #### Advanced Deployments
@@ -384,6 +395,9 @@ export OPTI_API_ENDPOINT="https://paasportal.episerver.net/api/v1.0/"
 
 # Now you can deploy without credentials in command
 opticloud ship ./app --target=production --type=head
+
+# Or using npx
+npx @kunalshetye/opticloud ship ./app --target=production --type=head
 ```
 
 ### Error Handling
@@ -459,6 +473,11 @@ opticloud auth:status
 
 # Logout and clear credentials
 opticloud auth:logout
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud auth:login
+npx @kunalshetye/opticloud auth:status
+npx @kunalshetye/opticloud auth:logout
 ```
 
 ### Package Management
@@ -484,6 +503,11 @@ opticloud package:list
 
 # Get upload URL for manual operations
 opticloud package:get-upload-url
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud package:create ./my-app --type=cms --prefix=mysite --version=1.0.0
+npx @kunalshetye/opticloud package:upload ./package.zip
+npx @kunalshetye/opticloud package:list
 ```
 
 ### Deployment Management
@@ -497,6 +521,9 @@ opticloud ship ./my-app --target=production --type=cms --client-key=KEY --client
 
 # One-shot deployment to custom DXP environment
 opticloud ship ./my-app --target=Test1 --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud ship ./my-app --target=Integration --type=head --prefix=mysite --version=1.0.0
 
 # Individual deployment steps (for granular control):
 
@@ -544,6 +571,11 @@ opticloud deployment:complete 12345678-1234-1234-1234-123456789012 --watch
 
 # Reset a failed deployment
 opticloud deployment:reset 12345678-1234-1234-1234-123456789012
+
+# Using npx for individual commands (no installation needed)
+npx @kunalshetye/opticloud deployment:list
+npx @kunalshetye/opticloud deployment:start --target=Integration --packages=app.zip
+npx @kunalshetye/opticloud deployment:complete 12345678-1234-1234-1234-123456789012
 ```
 
 ### Database Operations
@@ -554,6 +586,10 @@ opticloud database:export --environment=Production
 
 # List database exports
 opticloud database:list
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud database:export --environment=Production
+npx @kunalshetye/opticloud database:list
 ```
 
 ### Log Management
@@ -573,6 +609,10 @@ opticloud logs:access --environment=Production --container=azure-application-log
 
 # Get SAS URL with longer retention and write access
 opticloud logs:access --environment=Production --container=azure-web-logs --retention-hours=48 --writable
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud logs:edge
+npx @kunalshetye/opticloud logs:containers --environment=Production
 ```
 
 ## Configuration
@@ -768,6 +808,9 @@ export OPTI_API_ENDPOINT="https://paasportal.episerver.net/api/v1.0/"
 
 # Now deploy without credentials in command
 opticloud ship ./app --target=production --type=head
+
+# Or using npx
+npx @kunalshetye/opticloud ship ./app --target=production --type=head
 ```
 
 ## Troubleshooting
@@ -782,6 +825,10 @@ opticloud auth:status
 # Re-authenticate
 opticloud auth:logout
 opticloud auth:login
+
+# Using npx (no installation needed)
+npx @kunalshetye/opticloud auth:status
+npx @kunalshetye/opticloud auth:login
 ```
 
 **Package Creation Failed**
@@ -790,6 +837,9 @@ opticloud auth:login
 # Check .gitignore syntax if using custom patterns
 # Verify sufficient disk space for package creation
 opticloud package:create ./my-app --type=cms --prefix=mysite
+
+# Using npx
+npx @kunalshetye/opticloud package:create ./my-app --type=cms --prefix=mysite
 ```
 
 **Package Upload Failed**
@@ -806,6 +856,10 @@ opticloud deployment:list --deployment-id=<id>
 
 # Reset and retry
 opticloud deployment:reset <deployment-id>
+
+# Using npx
+npx @kunalshetye/opticloud deployment:list --deployment-id=<id>
+npx @kunalshetye/opticloud deployment:reset <deployment-id>
 ```
 
 ### Debug Mode
@@ -813,7 +867,11 @@ opticloud deployment:reset <deployment-id>
 Enable verbose logging by setting the debug environment variable:
 
 ```bash
+# With global installation
 DEBUG=opticloud* opticloud [command]
+
+# With npx
+DEBUG=opticloud* npx @kunalshetye/opticloud [command]
 ```
 
 ## Contributing
