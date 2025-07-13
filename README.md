@@ -134,26 +134,269 @@ opticloud deployment:list
 npx opticloud deployment:list
 ```
 
-## One-Shot Deployment 🚀
+## Ship Command 🚀
 
-For the ultimate streamlined experience, use the `deployment:deploy` command to execute the entire workflow in one command:
+The `ship` command is the ultimate streamlined solution for Optimizely DXP deployments. It orchestrates the complete workflow from source code to production in a single command.
+
+### Quick Start
 
 ```bash
-# Complete deployment workflow in one command
-opticloud deployment:deploy ../optimizely-one --target=Test1 --type=head --version=20250712 --prefix=optimizely-one
+# Basic deployment
+opticloud ship ./my-app --target=integration --type=cms
 
-# Deploy with custom credentials (useful for CI/CD or different servers)
-opticloud deployment:deploy ./my-app --target=integration --type=cms --client-key=KEY --client-secret=SECRET
-
-# Deploy to custom DXP environment
-opticloud deployment:deploy ./my-app --target=production --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/
+# Production deployment with all options
+opticloud ship ./my-app --target=production --type=head --prefix=mysite --version=1.0.0 --output=./packages
 ```
 
-This single command will:
-1. 📦 Create package from your directory
-2. ⬆️ Upload package to DXP Cloud storage
-3. 🚀 Start deployment with real-time progress monitoring
-4. ✅ Automatically complete deployment when ready
+### Complete Workflow
+
+The `ship` command executes these steps automatically:
+
+1. 📦 **Package Creation** - Creates deployment package from your source directory
+2. ⬆️ **Upload** - Uploads package to DXP Cloud storage
+3. 🚀 **Deployment** - Starts deployment to target environment
+4. 👀 **Monitoring** - Watches progress with real-time updates
+5. ✅ **Completion** - Automatically completes when deployment is ready
+
+### Command Syntax
+
+```bash
+opticloud ship <directory> --target=<environment> --type=<package-type> [options]
+```
+
+### Required Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `directory` | Source directory to package and deploy | `./my-app`, `../frontend` |
+| `--target` or `-t` | Target environment name | `integration`, `production`, `Test1` |
+| `--type` | Package type | `cms`, `head`, `commerce`, `sqldb` |
+
+### Package Types
+
+| Type | Description | File Extension | Use Case |
+|------|-------------|----------------|----------|
+| `cms` | CMS/Admin applications | `.nupkg` | Optimizely CMS admin interface and APIs |
+| `head` | Frontend applications | `.zip` | Frontend websites, SPAs, static sites |
+| `commerce` | Commerce applications | `.nupkg` | E-commerce functionality and APIs |
+| `sqldb` | Database packages | `.bacpac` | Database schema and data updates |
+
+### Optional Parameters
+
+#### Package Configuration
+- `--version` or `-v` - Package version (defaults to current date: YYYYMMDD)
+- `--prefix` or `-p` - Package name prefix for organization
+- `--output` or `-o` - Save package to specific directory (instead of temp)
+
+#### Database Options (for `--type=sqldb`)
+- `--db-type` - Database type: `cms` or `commerce` (default: `cms`)
+
+#### Authentication Overrides
+- `--client-key` - Override stored client key
+- `--client-secret` - Override stored client secret  
+- `--project-id` - Override stored project ID
+- `--api-endpoint` - Override API endpoint URL
+- `--skip-validation` - Skip credential validation (faster startup)
+
+#### Deployment Monitoring
+- `--poll-interval` - Polling frequency in seconds (default: 10, range: 5-300)
+- `--continue-on-errors` - Continue watching even when errors are detected
+- `--json` - Output results in JSON format for scripting
+
+### Usage Examples
+
+#### Basic Deployments
+```bash
+# Simple CMS deployment
+opticloud ship ./cms-app --target=integration --type=cms
+
+# Frontend deployment with prefix
+opticloud ship ./frontend --target=production --type=head --prefix=mysite
+
+# Commerce deployment with custom version
+opticloud ship ./commerce --target=Test1 --type=commerce --version=2.1.0
+```
+
+#### Advanced Deployments
+```bash
+# Complete deployment with all options
+opticloud ship ./my-app \
+  --target=production \
+  --type=head \
+  --prefix=optimizely-one \
+  --version=1.0.0 \
+  --output=./packages \
+  --poll-interval=30
+
+# CI/CD deployment with credential override
+opticloud ship ./app \
+  --target=production \
+  --type=cms \
+  --client-key=$CI_CLIENT_KEY \
+  --client-secret=$CI_CLIENT_SECRET \
+  --project-id=$CI_PROJECT_ID \
+  --skip-validation
+
+# Database deployment
+opticloud ship ./database \
+  --target=integration \
+  --type=sqldb \
+  --db-type=cms \
+  --prefix=mysite
+```
+
+#### Custom Environment Deployments
+```bash
+# Deploy to custom DXP environment
+opticloud ship ./app \
+  --target=staging \
+  --type=head \
+  --api-endpoint=https://custom.dxp.com/api/v1.0/ \
+  --client-key=CUSTOM_KEY \
+  --client-secret=CUSTOM_SECRET
+
+# Multiple environment deployment script
+opticloud ship ./app --target=Test1 --type=head --prefix=mysite --version=1.0.0
+opticloud ship ./app --target=Test2 --type=head --prefix=mysite --version=1.0.0  
+opticloud ship ./app --target=production --type=head --prefix=mysite --version=1.0.0
+```
+
+### Package Storage Behavior
+
+#### Default Storage (Recommended)
+- **Location**: System temporary directory (e.g., `/tmp` on macOS/Linux, `%TEMP%` on Windows)
+- **Cleanup**: Automatically deleted after successful deployment
+- **Benefits**: Keeps workspace clean, no manual cleanup needed
+- **Use Case**: Most deployments, CI/CD pipelines
+
+#### Custom Storage
+- **Usage**: `--output=./packages` or `--output=/path/to/artifacts`
+- **Cleanup**: Packages are **not** automatically deleted
+- **Benefits**: Package preservation for auditing, rollback, or reuse
+- **Use Case**: Production deployments, compliance requirements, debugging
+
+### Package Naming Convention
+
+Packages are automatically named using DXP Cloud standards:
+
+| Package Type | Naming Pattern | Example |
+|--------------|----------------|---------|
+| CMS | `[prefix.]cms.app.[version].nupkg` | `mysite.cms.app.20250713.nupkg` |
+| Head | `[prefix.]head.app.[version].zip` | `mysite.head.app.1.0.0.zip` |
+| Commerce | `[prefix.]commerce.app.[version].nupkg` | `store.commerce.app.2.1.0.nupkg` |
+| SQL Database | `[prefix.][db-type.]sqldb.[version].bacpac` | `mysite.cms.sqldb.1.0.0.bacpac` |
+
+### Deployment Monitoring
+
+The `ship` command provides real-time deployment monitoring:
+
+#### Status Updates
+- **Status Changes**: `InProgress` → `AwaitingVerification` → `Succeeded`
+- **Progress Tracking**: Percentage completion updates
+- **Error Detection**: Automatic error reporting and optional continuation
+- **Timestamps**: All updates include precise timing information
+
+#### Monitoring Options
+```bash
+# Default monitoring (10-second intervals)
+opticloud ship ./app --target=production --type=head
+
+# Faster monitoring for quick deployments
+opticloud ship ./app --target=integration --type=head --poll-interval=5
+
+# Slower monitoring for large deployments  
+opticloud ship ./app --target=production --type=cms --poll-interval=60
+
+# Continue monitoring even with errors
+opticloud ship ./app --target=Test1 --type=head --continue-on-errors
+```
+
+#### JSON Output for Automation
+```bash
+# Get machine-readable output
+opticloud ship ./app --target=production --type=head --json
+
+# Example JSON output:
+{
+  "success": true,
+  "deploymentId": "12345678-1234-1234-1234-123456789012",
+  "packagePath": "mysite.head.app.20250713.zip"
+}
+```
+
+### Environment Variables
+
+Override any parameter using environment variables:
+
+```bash
+export OPTI_PROJECT_ID="12345678-1234-1234-1234-123456789012"
+export OPTI_CLIENT_KEY="your-client-key"
+export OPTI_CLIENT_SECRET="your-client-secret"
+export OPTI_API_ENDPOINT="https://paasportal.episerver.net/api/v1.0/"
+
+# Now you can deploy without credentials in command
+opticloud ship ./app --target=production --type=head
+```
+
+### Error Handling
+
+The `ship` command includes comprehensive error handling:
+
+#### Common Scenarios
+- **Invalid Directory**: Clear error if source directory doesn't exist
+- **Authentication Failures**: Detailed credential validation errors
+- **Upload Failures**: Network and storage-related error reporting
+- **Deployment Errors**: Real-time error detection with detailed messages
+- **Permission Issues**: Clear guidance on access requirements
+
+#### Recovery Options
+```bash
+# Skip credential validation for faster retries
+opticloud ship ./app --target=production --type=head --skip-validation
+
+# Continue deployment monitoring despite errors
+opticloud ship ./app --target=production --type=head --continue-on-errors
+
+# Use custom output directory to preserve packages for debugging
+opticloud ship ./app --target=production --type=head --output=./debug-packages
+```
+
+### Best Practices
+
+#### Development Workflow
+```bash
+# Development/testing deployments
+opticloud ship ./app --target=integration --type=head --prefix=dev
+
+# Staging deployments with package preservation
+opticloud ship ./app --target=preproduction --type=head --prefix=staging --output=./packages
+
+# Production deployments with full specification
+opticloud ship ./app --target=production --type=head --prefix=mysite --version=1.0.0 --output=./production-packages
+```
+
+#### CI/CD Integration
+```bash
+# GitLab CI / GitHub Actions
+opticloud ship $CI_PROJECT_DIR \
+  --target=production \
+  --type=head \
+  --prefix=$CI_PROJECT_NAME \
+  --version=$CI_COMMIT_TAG \
+  --client-key=$DXP_CLIENT_KEY \
+  --client-secret=$DXP_CLIENT_SECRET \
+  --project-id=$DXP_PROJECT_ID \
+  --json
+```
+
+#### Multi-Environment Deployments
+```bash
+# Deploy to multiple environments with version consistency
+VERSION=$(date +%Y%m%d)
+opticloud ship ./app --target=Test1 --type=head --version=$VERSION --prefix=mysite
+opticloud ship ./app --target=Test2 --type=head --version=$VERSION --prefix=mysite
+opticloud ship ./app --target=production --type=head --version=$VERSION --prefix=mysite
+```
 
 ## Commands
 
@@ -199,13 +442,13 @@ opticloud package:get-upload-url
 
 ```bash
 # One-shot deployment (recommended) - create, upload, deploy, and complete in one command
-opticloud deployment:deploy ./my-app --target=Integration --type=head --prefix=mysite --version=1.0.0
+opticloud ship ./my-app --target=Integration --type=head --prefix=mysite --version=1.0.0
 
 # One-shot deployment with custom credentials (useful for CI/CD)
-opticloud deployment:deploy ./my-app --target=production --type=cms --client-key=KEY --client-secret=SECRET
+opticloud ship ./my-app --target=production --type=cms --client-key=KEY --client-secret=SECRET
 
 # One-shot deployment to custom DXP environment
-opticloud deployment:deploy ./my-app --target=Test1 --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/
+opticloud ship ./my-app --target=Test1 --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/
 
 # Individual deployment steps (for granular control):
 
@@ -410,7 +653,7 @@ The Node.js CLI provides these improvements over the PowerShell module:
 | `Reset-EpiDeployment` | `opticloud deployment:reset` |
 | `Add-EpiDeploymentPackage` | `opticloud package:upload` |
 | Package Creation | `opticloud package:create` |
-| **Full Deployment Workflow** | **`opticloud deployment:deploy`** ⭐ |
+| **Full Deployment Workflow** | **`opticloud ship`** ⭐ |
 | `Start-EpiDatabaseExport` | `opticloud database:export` |
 | `Get-EpiDatabaseExport` | `opticloud database:list` |
 | `Get-EpiEdgeLogLocation` | `opticloud logs:edge` |

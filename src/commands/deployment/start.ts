@@ -202,7 +202,7 @@ You can deploy from packages or copy from another environment.
       if (flags.watch && !flags.json) {
         this.log('👀 Watching deployment progress...')
         this.log(`📊 Polling every ${flags['poll-interval']} seconds (Ctrl+C to stop)`)
-        this.log(`⚠️ Polling results are only shown if there are changes`)
+        this.log(`⚠️ Polling results are only shown if there are any changes`)
         this.log('')
         
         await this.watchDeployment(deployment.id, flags['poll-interval'], flags['project-id'], flags['continue-on-errors'])

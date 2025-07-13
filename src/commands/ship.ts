@@ -3,11 +3,11 @@ import {resolve, join, basename} from 'node:path'
 import {existsSync, statSync, unlinkSync} from 'node:fs'
 import {tmpdir} from 'node:os'
 import {randomBytes} from 'node:crypto'
-import {auth} from '../../lib/auth.js'
-import {config} from '../../lib/config.js'
-import {apiClient} from '../../lib/api-client.js'
-import {packageService} from '../../lib/package-service.js'
-import {deploymentService} from '../../lib/deployment-service.js'
+import {auth} from '../lib/auth.js'
+import {config} from '../lib/config.js'
+import {apiClient} from '../lib/api-client.js'
+import {packageService} from '../lib/package-service.js'
+import {deploymentService} from '../lib/deployment-service.js'
 import {
   formatError,
   logError,
@@ -17,12 +17,12 @@ import {
   isValidGuid,
   createSpinner,
   formatDeploymentStatus,
-} from '../../lib/utils.js'
-import {AuthCredentials} from '../../lib/types.js'
+} from '../lib/utils.js'
+import {AuthCredentials} from '../lib/types.js'
 
 type PackageType = 'cms' | 'head' | 'commerce' | 'sqldb'
 
-export default class DeploymentDeploy extends Command {
+export default class Ship extends Command {
   static override summary = 'Deploy application in one command (create package, upload, deploy, and complete)'
 
   static override description = `
@@ -39,10 +39,10 @@ without permanently changing stored credentials.
 `
 
   static override examples = [
-    '$ opticloud deployment:deploy ../optimizely-one --target=Test1 --type=head --version=20250712 --prefix=optimizely-one',
-    '$ opticloud deployment:deploy ./my-app --target=integration --type=cms --client-key=KEY --client-secret=SECRET',
-    '$ opticloud deployment:deploy ./my-app --target=production --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/',
-    '$ opticloud deployment:deploy ./my-app --target=preproduction --type=commerce --skip-validation',
+    '$ opticloud ship ../optimizely-one --target=Test1 --type=head --version=20250712 --prefix=optimizely-one',
+    '$ opticloud ship ./my-app --target=integration --type=cms --client-key=KEY --client-secret=SECRET',
+    '$ opticloud ship ./my-app --target=production --type=head --api-endpoint=https://custom.dxp.com/api/v1.0/',
+    '$ opticloud ship ./my-app --target=preproduction --type=commerce --skip-validation',
   ]
 
   static override args = {
@@ -123,7 +123,7 @@ without permanently changing stored credentials.
   private tempPackagePath: string | null = null
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(DeploymentDeploy)
+    const {args, flags} = await this.parse(Ship)
 
     try {
       // Setup authentication and configuration overrides
@@ -375,7 +375,7 @@ without permanently changing stored credentials.
     if (!flags.json) {
       logInfo('👀 Watching deployment progress...')
       this.log(`📊 Polling every ${flags['poll-interval']} seconds (Ctrl+C to stop)`)
-      this.log(`⚠️ Polling results are only shown if there are changes`)
+      this.log(`⚠️ Polling results are only shown if there are any changes`)
       this.log('')
     }
 
