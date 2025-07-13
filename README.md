@@ -1,5 +1,10 @@
 # Optimizely DXP CLI
 
+[![npm version](https://img.shields.io/npm/v/@kunalshetye/opticloud.svg)](https://www.npmjs.com/package/@kunalshetye/opticloud)
+[![npm downloads](https://img.shields.io/npm/dm/@kunalshetye/opticloud.svg)](https://www.npmjs.com/package/@kunalshetye/opticloud)
+[![license](https://img.shields.io/npm/l/@kunalshetye/opticloud.svg)](https://github.com/kunalshetye/opticloud/blob/main/LICENSE)
+[![Node.js version](https://img.shields.io/node/v/@kunalshetye/opticloud.svg)](https://nodejs.org)
+
 A modern command-line interface for managing Optimizely Digital Experience Platform (DXP) Cloud deployments, built with Node.js and TypeScript.
 
 ## Overview
@@ -24,16 +29,16 @@ Install the package globally to use the `opticloud` command anywhere:
 
 ```bash
 # Using npm
-npm install -g opticloud
+npm install -g @kunalshetye/opticloud
 
 # Using yarn
-yarn global add opticloud
+yarn global add @kunalshetye/opticloud
 
 # Using pnpm
-pnpm add -g opticloud
+pnpm add -g @kunalshetye/opticloud
 
 # Using bun
-bun add -g opticloud
+bun add -g @kunalshetye/opticloud
 ```
 
 ### Option 2: Use with npx (No Installation Required)
@@ -42,8 +47,8 @@ Run commands directly without installing using npx:
 
 ```bash
 # No installation needed - npx will download and run the package
-npx opticloud auth:login
-npx opticloud package:create ./my-app --type=cms
+npx @kunalshetye/opticloud auth:login
+npx @kunalshetye/opticloud package:create ./my-app --type=cms
 ```
 
 ### Option 3: Development Setup
@@ -727,6 +732,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For issues and feature requests, please use the [GitHub Issues](https://github.com/your-org/opticloud/issues) page.
+For issues and feature requests, please use the [GitHub Issues](https://github.com/kunalshetye/opticloud/issues) page.
 
 For Optimizely DXP Cloud platform support, visit the [Optimizely Developer Community](https://world.optimizely.com/community/).

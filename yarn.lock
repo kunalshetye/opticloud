@@ -1172,6 +1172,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kunalshetye/opticloud@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@kunalshetye/opticloud@workspace:."
+  dependencies:
+    "@oclif/core": "npm:^4"
+    "@oclif/plugin-help": "npm:^6"
+    "@oclif/plugin-plugins": "npm:^5"
+    "@oclif/prettier-config": "npm:^0.2.1"
+    "@oclif/test": "npm:^4"
+    "@types/archiver": "npm:^6.0.2"
+    "@types/chai": "npm:^5"
+    "@types/inquirer": "npm:^9.0.7"
+    "@types/mocha": "npm:^10"
+    "@types/node": "npm:^18"
+    archiver: "npm:^7.0.1"
+    axios: "npm:^1.7.7"
+    chai: "npm:^5"
+    chalk: "npm:^5.3.0"
+    conf: "npm:^13.0.1"
+    eslint: "npm:^8.57.1"
+    eslint-config-oclif: "npm:^5"
+    eslint-config-oclif-typescript: "npm:^3"
+    ignore: "npm:^6.0.2"
+    inquirer: "npm:^12.1.0"
+    keytar: "npm:^7.9.0"
+    mocha: "npm:^10"
+    oclif: "npm:^4"
+    ora: "npm:^8.1.1"
+    shx: "npm:^0.3.4"
+    ts-node: "npm:^10.9.2"
+    tslib: "npm:^2.8.1"
+    typescript: "npm:^5.6.3"
+  bin:
+    opticloud: ./bin/run.js
+  languageName: unknown
+  linkType: soft
+
 "@napi-rs/wasm-runtime@npm:^0.2.11":
   version: 0.2.12
   resolution: "@napi-rs/wasm-runtime@npm:0.2.12"
@@ -7130,43 +7167,6 @@ __metadata:
   checksum: 10c0/5cb9179d74b63f52a196a2e7037ba2b9a893245a5532d3f44360012005c9cadb60851d56716ebff18a6f47129dab7168022445df47c2aff3b276d92585ed1221
   languageName: node
   linkType: hard
-
-"opticloud@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "opticloud@workspace:."
-  dependencies:
-    "@oclif/core": "npm:^4"
-    "@oclif/plugin-help": "npm:^6"
-    "@oclif/plugin-plugins": "npm:^5"
-    "@oclif/prettier-config": "npm:^0.2.1"
-    "@oclif/test": "npm:^4"
-    "@types/archiver": "npm:^6.0.2"
-    "@types/chai": "npm:^5"
-    "@types/inquirer": "npm:^9.0.7"
-    "@types/mocha": "npm:^10"
-    "@types/node": "npm:^18"
-    archiver: "npm:^7.0.1"
-    axios: "npm:^1.7.7"
-    chai: "npm:^5"
-    chalk: "npm:^5.3.0"
-    conf: "npm:^13.0.1"
-    eslint: "npm:^8.57.1"
-    eslint-config-oclif: "npm:^5"
-    eslint-config-oclif-typescript: "npm:^3"
-    ignore: "npm:^6.0.2"
-    inquirer: "npm:^12.1.0"
-    keytar: "npm:^7.9.0"
-    mocha: "npm:^10"
-    oclif: "npm:^4"
-    ora: "npm:^8.1.1"
-    shx: "npm:^0.3.4"
-    ts-node: "npm:^10.9.2"
-    tslib: "npm:^2.8.1"
-    typescript: "npm:^5.6.3"
-  bin:
-    opticloud: ./bin/run.js
-  languageName: unknown
-  linkType: soft
 
 "optionator@npm:^0.9.3":
   version: 0.9.4

@@ -1,0 +1,104 @@
+name: Question or Help
+description: Ask a question or get help using opticloud
+title: "[Question]: "
+labels: ["question", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about using opticloud? Need help with a specific workflow? Ask here!
+        
+        💡 **Tip**: Check the [README](https://github.com/kunalshetye/opticloud#readme) and [documentation](https://github.com/kunalshetye/opticloud/blob/main/README.md) first.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+      placeholder: |
+        Ask your question here...
+        Be as specific as possible to help us provide the best answer.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What area is your question about?
+      options:
+        - Getting Started & Installation
+        - Authentication & Setup
+        - Package Creation & Management
+        - Deployment Workflow
+        - Ship Command Usage
+        - Database Operations
+        - CI/CD Integration
+        - Troubleshooting
+        - Best Practices
+        - Configuration
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Background
+      description: Provide context about what you're trying to achieve
+      placeholder: |
+        Describe your goal, current setup, or what you're trying to accomplish...
+        
+        Examples:
+        - "I'm setting up CI/CD for multiple environments"
+        - "I want to deploy a Next.js app to DXP Cloud"
+        - "I'm migrating from the PowerShell module"
+    validations:
+      required: false
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What Have You Tried?
+      description: What approaches have you already attempted?
+      placeholder: |
+        List commands you've tried, documentation you've read, or solutions you've attempted...
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: opticloud Version
+      description: Output of `opticloud --version` (if installed)
+      placeholder: "opticloud/1.0.0 darwin-arm64 node-v18.17.0"
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you using?
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - Other
+        - Not applicable
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Details
+      description: Any other relevant information
+      placeholder: |
+        Include any error messages, configuration details, or other context that might be helpful...
+
+  - type: checkboxes
+    id: resources
+    attributes:
+      label: Documentation Review
+      description: Have you checked these resources?
+      options:
+        - label: I have read the README and main documentation
+        - label: I have searched existing issues for similar questions
+        - label: I have tried the examples in the documentation

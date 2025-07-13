@@ -1,0 +1,149 @@
+name: Documentation Issue
+description: Report issues with documentation or suggest improvements
+title: "[Docs]: "
+labels: ["documentation", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve the opticloud documentation! Report issues, suggest improvements, or request new documentation.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Documentation Issue Type
+      description: What kind of documentation issue is this?
+      options:
+        - Incorrect Information
+        - Missing Information
+        - Unclear/Confusing Content
+        - Outdated Content
+        - New Documentation Request
+        - Typo/Grammar
+        - Example Needs Improvement
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where is the documentation issue located?
+      placeholder: |
+        Examples:
+        - README.md - Ship Command section
+        - Command help text for "ship"
+        - package.json description
+        - GitHub repository description
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Content (if applicable)
+      description: Quote the current text that has issues
+      placeholder: |
+        Copy and paste the problematic text here...
+    validations:
+      required: false
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: Issue Description
+      description: What's wrong with the current documentation?
+      placeholder: |
+        Describe the problem:
+        - What's incorrect, missing, or confusing?
+        - How did this impact your experience?
+        - What made it difficult to understand?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested Improvement
+      description: How should the documentation be improved?
+      placeholder: |
+        Provide your suggested changes:
+        - Corrected text
+        - Additional information needed
+        - Better examples
+        - Restructuring suggestions
+    validations:
+      required: false
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit most from this documentation improvement?
+      options:
+        - New Users (getting started)
+        - Experienced Users (advanced features)
+        - Developers (technical details)
+        - DevOps/CI-CD Users
+        - All Users
+        - Not sure
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: User Context
+      description: What were you trying to accomplish when you encountered this issue?
+      placeholder: |
+        Describe your situation:
+        - What task were you trying to complete?
+        - What information were you looking for?
+        - How did the current documentation fall short?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Documentation Scope
+      description: What documentation areas should be updated?
+      options:
+        - label: README.md
+        - label: Command help text (--help output)
+        - label: Code comments
+        - label: Error messages
+        - label: Examples in README
+        - label: GitHub repository description
+        - label: Package.json description
+        - label: Other
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example Improvements
+      description: Provide specific examples if you have suggestions
+      placeholder: |
+        Show before/after examples, new code snippets, or improved explanations...
+        
+        ```bash
+        # Current example (problematic)
+        opticloud ship ./app --target=prod
+        
+        # Improved example
+        opticloud ship ./app --target=production --type=head --prefix=mysite
+        ```
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have provided specific details about the documentation issue
+          required: true
+        - label: I am willing to help review improved documentation
+          required: false

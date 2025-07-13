@@ -1,0 +1,163 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the information below to help us diagnose and fix the issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the unexpected behavior you encountered...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Run command '...'
+        2. Use flags '...'
+        3. See error
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+      placeholder: Describe what should have happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened (including error messages)
+      placeholder: |
+        Include full error messages, stack traces, or unexpected output...
+    validations:
+      required: true
+
+  - type: input
+    id: command
+    attributes:
+      label: Command Used
+      description: The exact opticloud command you ran
+      placeholder: "opticloud ship ./my-app --target=production --type=head"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: command-type
+    attributes:
+      label: Command Category
+      description: Which type of command had the issue?
+      options:
+        - Authentication (auth:login, auth:status, etc.)
+        - Package Management (package:create, package:upload, etc.)
+        - Deployment (ship, deployment:start, deployment:complete, etc.)
+        - Database (database:export, database:list)
+        - Logs (logs:access, logs:containers, etc.)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: opticloud Version
+      description: Output of `opticloud --version`
+      placeholder: "opticloud/1.0.0 darwin-arm64 node-v18.17.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you using?
+      options:
+        - macOS
+        - Windows
+        - Linux (Ubuntu)
+        - Linux (CentOS/RHEL)
+        - Linux (Other)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version
+      description: Output of `node --version`
+      placeholder: "v18.17.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation Method
+      description: How did you install opticloud?
+      options:
+        - npm install -g opticloud
+        - yarn global add opticloud
+        - npx opticloud
+        - Built from source
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Additional environment information (DXP environment, network setup, etc.)
+      placeholder: |
+        - DXP Environment: Production/Integration/etc.
+        - Network: Corporate proxy, VPN, etc.
+        - CI/CD: GitHub Actions, GitLab CI, etc.
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug Output
+      description: |
+        Run your command with DEBUG=opticloud* and include the output
+        Example: `DEBUG=opticloud* opticloud ship ./app --target=test --type=head`
+      placeholder: Paste debug output here...
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or information that might be helpful
+      placeholder: Add any other context about the problem here...
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have included all relevant information above
+          required: true
+        - label: I can reproduce this issue consistently
+          required: false

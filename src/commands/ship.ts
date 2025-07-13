@@ -407,7 +407,7 @@ without permanently changing stored credentials.
         }
 
         // Progress changed
-        if (currentProgress !== lastProgress && currentProgress > lastProgress && !flags.json) {
+        if (currentProgress !== lastProgress && !flags.json) {
           const timestamp = new Date().toLocaleTimeString()
           this.log(`[${timestamp}] Progress: ${currentProgress}%`)
           lastProgress = currentProgress
