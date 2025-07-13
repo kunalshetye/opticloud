@@ -518,6 +518,15 @@ opticloud deployment:list
 # Get specific deployment details
 opticloud deployment:list --deployment-id=12345678-1234-1234-1234-123456789012
 
+# Watch all deployments in real-time
+opticloud deployment:list --watch
+
+# Watch with custom polling interval
+opticloud deployment:list --watch --poll-interval=15
+
+# Watch and include completed deployments
+opticloud deployment:list --watch --show-completed
+
 # View detailed deployment logs (warnings, errors, progress)
 opticloud deployment:logs 12345678-1234-1234-1234-123456789012
 
