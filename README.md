@@ -7,6 +7,49 @@
 
 A modern command-line interface for managing Optimizely Digital Experience Platform (DXP) Cloud deployments, built with Node.js and TypeScript.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+  - [Option 1: Install Globally](#option-1-install-globally)
+  - [Option 2: Use with npx (No Installation Required)](#option-2-use-with-npx-no-installation-required)
+  - [Option 3: Development Setup](#option-3-development-setup)
+- [Quick Start](#quick-start)
+- [Ship Command 🚀](#ship-command-)
+  - [Quick Start](#quick-start-1)
+  - [Complete Workflow](#complete-workflow)
+  - [Command Syntax](#command-syntax)
+  - [Required Parameters](#required-parameters)
+  - [Package Types](#package-types)
+  - [Optional Parameters](#optional-parameters)
+  - [Usage Examples](#usage-examples)
+  - [Package Storage Behavior](#package-storage-behavior)
+  - [Package Naming Convention](#package-naming-convention)
+  - [Deployment Monitoring](#deployment-monitoring)
+  - [Environment Variables](#environment-variables)
+  - [Error Handling](#error-handling)
+  - [Best Practices](#best-practices)
+- [Commands](#commands)
+  - [Authentication](#authentication)
+  - [Package Management](#package-management)
+  - [Deployment Management](#deployment-management)
+  - [Database Operations](#database-operations)
+  - [Log Management](#log-management)
+- [Configuration](#configuration)
+- [Development](#development)
+- [API Compatibility](#api-compatibility)
+- [Migration from PowerShell](#migration-from-powershell)
+- [CI/CD Integration](#cicd-integration)
+  - [GitHub Actions](#github-actions)
+  - [Key CI/CD Features](#key-cicd-features)
+  - [Other CI/CD Platforms](#other-cicd-platforms)
+  - [Environment Variables](#environment-variables-1)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
 ## Overview
 
 The Optimizely DXP CLI provides a cross-platform, modern alternative to the legacy PowerShell EpiCloud module. It enables developers and DevOps teams to manage DXP Cloud projects from any platform with better performance, improved user experience, and enhanced developer tooling.
