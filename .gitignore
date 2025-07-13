@@ -97,6 +97,6 @@ config.json
 credentials.json
 
 # CLI generated files
-.opti-dxp-cli/
+.opticloud/
 
 tsconfig.tsbuildinfo

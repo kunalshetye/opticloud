@@ -374,7 +374,8 @@ without permanently changing stored credentials.
   private async watchAndCompleteDeployment(deploymentId: string, flags: any): Promise<void> {
     if (!flags.json) {
       logInfo('👀 Watching deployment progress...')
-      this.log(`📊 Polling every ${flags['poll-interval']} seconds`)
+      this.log(`📊 Polling every ${flags['poll-interval']} seconds (Ctrl+C to stop)`)
+      this.log(`⚠️ Polling results are only shown if there are changes`)
       this.log('')
     }
 
@@ -431,9 +432,9 @@ without permanently changing stored credentials.
           await deploymentService.completeDeployment(flags['project-id']!, deploymentId)
           
           if (!flags.json) {
-            logSuccess('✅ Deployment completed!')
+            logInfo('✅ Deployment completion initiated, continuing to watch...')
           }
-          break
+          // Continue watching after completion - don't break here
         } else if (currentStatus.toLowerCase() === 'succeeded') {
           if (!flags.json) {
             logSuccess(`✅ Deployment succeeded! (${currentProgress}%)`)
