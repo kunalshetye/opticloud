@@ -2,12 +2,12 @@ import {Command, Flags, Args} from '@oclif/core'
 import {resolve, join, basename} from 'node:path'
 import {existsSync, statSync, unlinkSync} from 'node:fs'
 import {tmpdir} from 'node:os'
-import {randomBytes} from 'node:crypto'
 import {auth} from '../lib/auth.js'
 import {config} from '../lib/config.js'
 import {apiClient} from '../lib/api-client.js'
 import {packageService} from '../lib/package-service.js'
 import {deploymentService} from '../lib/deployment-service.js'
+import {PackageCreator} from '../lib/package-creator.js'
 import {
   formatError,
   logError,
@@ -256,8 +256,12 @@ without permanently changing stored credentials.
         unlinkSync(packagePath)
       }
 
-      // Use the package creation logic (simplified version of PackageCreate)
-      await this.createPackageFile(sourceDir, packagePath)
+      // Use optimized package creation with compression
+      await PackageCreator.createPackage({
+        sourceDir,
+        packagePath,
+        useGitignore: true,
+      })
 
       spinner.stop()
       
@@ -273,7 +277,12 @@ without permanently changing stored credentials.
   }
 
   private generatePackageInfo(type: PackageType, version?: string, prefix?: string, dbType = 'cms'): {name: string} {
-    const packageVersion = version || new Date().toISOString().slice(0, 10).replace(/-/g, '')
+    const packageVersion = version || (() => {
+      const now = new Date()
+      const date = now.toISOString().slice(0, 10).replace(/-/g, '')
+      const time = now.toTimeString().slice(0, 8).replace(/:/g, '')
+      return `${date}${time}`
+    })()
     
     let name: string
 
@@ -302,27 +311,6 @@ without permanently changing stored credentials.
     return {name}
   }
 
-  private async createPackageFile(sourceDir: string, packagePath: string): Promise<void> {
-    // This is a simplified implementation - in a real scenario you'd want to
-    // import and reuse the full logic from PackageCreate command
-    const archiver = await import('archiver')
-    const {createWriteStream} = await import('node:fs')
-    const {readdir} = await import('node:fs/promises')
-    
-    return new Promise((resolve, reject) => {
-      const output = createWriteStream(packagePath)
-      const archive = archiver.default('zip', {
-        zlib: { level: 9 },
-      })
-
-      output.on('close', () => resolve())
-      archive.on('error', reject)
-
-      archive.pipe(output)
-      archive.directory(sourceDir, false)
-      archive.finalize()
-    })
-  }
 
   private async uploadPackage(packagePath: string, flags: any): Promise<void> {
     const spinner = createSpinner('Uploading package...')

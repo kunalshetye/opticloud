@@ -1,11 +1,8 @@
 import {Command, Flags, Args} from '@oclif/core'
-import {resolve, join, basename, dirname} from 'node:path'
-import {existsSync, statSync, createReadStream} from 'node:fs'
-import {readdir, readFile} from 'node:fs/promises'
-import archiver from 'archiver'
-import {createWriteStream} from 'node:fs'
-import ignore from 'ignore'
+import {resolve, join} from 'node:path'
+import {existsSync, statSync} from 'node:fs'
 import {formatError, logError, logSuccess, createSpinner} from '../../lib/utils.js'
+import {PackageCreator} from '../../lib/package-creator.js'
 
 type PackageType = 'cms' | 'head' | 'commerce' | 'sqldb'
 
@@ -128,11 +125,12 @@ The created package respects .gitignore files in the source directory.
       const spinner = createSpinner(`Creating ${packageInfo.type} package...`)
       spinner.start()
 
-      // Load .gitignore patterns
-      const ignorePatterns = await this.loadIgnorePatterns(sourceDir)
-
-      // Create package
-      await this.createPackage(sourceDir, packagePath, ignorePatterns)
+      // Create package using optimized compression
+      await PackageCreator.createPackage({
+        sourceDir,
+        packagePath,
+        useGitignore: true,
+      })
 
       spinner.stop()
 
@@ -203,90 +201,6 @@ The created package respects .gitignore files in the source directory.
     }
   }
 
-  private async loadIgnorePatterns(directory: string): Promise<ReturnType<typeof ignore>> {
-    const ig = ignore()
-    
-    // Always ignore common build/temp files
-    ig.add([
-      '.DS_Store',
-      'Thumbs.db',
-      '*.tmp',
-      '*.temp',
-      '.git/',
-      '.svn/',
-      '.hg/',
-      'node_modules/',
-      '.npm/',
-      '.yarn/',
-    ])
-
-    try {
-      const gitignorePath = join(directory, '.gitignore')
-      if (existsSync(gitignorePath)) {
-        const gitignoreContent = await readFile(gitignorePath, 'utf8')
-        ig.add(gitignoreContent)
-      }
-    } catch (error) {
-      // Ignore errors reading .gitignore - it's optional
-    }
-
-    return ig
-  }
-
-  private async createPackage(sourceDir: string, packagePath: string, ignorePatterns: ReturnType<typeof ignore>): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const output = createWriteStream(packagePath)
-      const archive = archiver('zip', {
-        zlib: { level: 9 }, // Maximum compression
-      })
-
-      output.on('close', () => {
-        resolve()
-      })
-
-      archive.on('error', (error) => {
-        reject(error)
-      })
-
-      archive.pipe(output)
-
-      // Add files recursively
-      this.addDirectoryToArchive(archive, sourceDir, '', ignorePatterns)
-        .then(() => {
-          archive.finalize()
-        })
-        .catch(reject)
-    })
-  }
-
-  private async addDirectoryToArchive(
-    archive: archiver.Archiver,
-    sourceDir: string,
-    relativePath: string,
-    ignorePatterns: ReturnType<typeof ignore>
-  ): Promise<void> {
-    const fullPath = join(sourceDir, relativePath)
-    const entries = await readdir(fullPath, { withFileTypes: true })
-
-    for (const entry of entries) {
-      const entryRelativePath = relativePath ? join(relativePath, entry.name) : entry.name
-      const entryFullPath = join(fullPath, entry.name)
-
-      // Check if this path should be ignored
-      if (ignorePatterns.ignores(entryRelativePath)) {
-        continue
-      }
-
-      if (entry.isDirectory()) {
-        // Recursively add directory contents
-        await this.addDirectoryToArchive(archive, sourceDir, entryRelativePath, ignorePatterns)
-      } else if (entry.isFile()) {
-        // Add file to archive
-        const stream = createReadStream(entryFullPath)
-        archive.append(stream, { name: entryRelativePath })
-      }
-    }
-  }
 
   private formatFileSize(bytes: number): string {
     const units = ['B', 'KB', 'MB', 'GB']

@@ -189,7 +189,7 @@ opticloud ship <directory> --target=<environment> --type=<package-type> [options
 ### Optional Parameters
 
 #### Package Configuration
-- `--version` or `-v` - Package version (defaults to current date: YYYYMMDD)
+- `--version` or `-v` - Package version (defaults to current timestamp: YYYYMMDDHHMMSS)
 - `--prefix` or `-p` - Package name prefix for organization
 - `--output` or `-o` - Save package to specific directory (instead of temp)
 
@@ -286,7 +286,7 @@ Packages are automatically named using DXP Cloud standards:
 
 | Package Type | Naming Pattern | Example |
 |--------------|----------------|---------|
-| CMS | `[prefix.]cms.app.[version].nupkg` | `mysite.cms.app.20250713.nupkg` |
+| CMS | `[prefix.]cms.app.[version].nupkg` | `mysite.cms.app.20250713092332.nupkg` |
 | Head | `[prefix.]head.app.[version].zip` | `mysite.head.app.1.0.0.zip` |
 | Commerce | `[prefix.]commerce.app.[version].nupkg` | `store.commerce.app.2.1.0.nupkg` |
 | SQL Database | `[prefix.][db-type.]sqldb.[version].bacpac` | `mysite.cms.sqldb.1.0.0.bacpac` |
@@ -325,7 +325,7 @@ opticloud ship ./app --target=production --type=head --json
 {
   "success": true,
   "deploymentId": "12345678-1234-1234-1234-123456789012",
-  "packagePath": "mysite.head.app.20250713.zip"
+  "packagePath": "mysite.head.app.20250713092332.zip"
 }
 ```
 

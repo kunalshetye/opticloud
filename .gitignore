@@ -38,7 +38,7 @@ node_modules/
 # TypeScript compiled output
 dist/
 build/
-lib/
+# Note: src/lib/ contains source code and should be tracked
 
 # oclif manifest and tarballs
 *.tgz
