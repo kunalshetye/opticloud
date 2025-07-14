@@ -33,6 +33,8 @@ A modern command-line interface for managing Optimizely Digital Experience Platf
 - [Commands](#commands)
   - [Authentication](#authentication)
   - [Package Management](#package-management)
+    - [Package Contents](#package-contents)
+    - [Using .zipignore](#using-zipignore)
   - [Deployment Management](#deployment-management)
   - [Database Operations](#database-operations)
   - [Log Management](#log-management)
@@ -653,8 +655,29 @@ opticloud package:create ./my-commerce-app --type=commerce --version=1.0.0
 
 #### Package Contents:
 - Packages the **contents** of the directory recursively (not the directory itself)
-- Respects `.zipignore` files in the source directory
-- Excludes common build artifacts (node_modules/, .DS_Store, etc.)
+- Respects `.zipignore` files in the source directory for custom exclusions
+- Automatically excludes common build artifacts (node_modules/, .DS_Store, .git/, etc.)
+- Excludes sensitive files (.env, .env.local) but includes .env.example
+
+#### Using .zipignore:
+Create a `.zipignore` file in your source directory to control which files are included/excluded from packages. The `.zipignore` file behaves exactly like `.gitignore` with the same syntax and pattern matching, but lets you control package contents separately from git tracking:
+
+```
+# Exclude specific files
+config.json
+debug.log
+
+# Exclude patterns
+test*
+*.tmp
+*.bak
+
+# Exclude TypeScript source files (keep compiled JS)
+src/**/*.ts
+
+# Use negation patterns (include despite other exclusions)
+!important-config.json
+```
 
 #### Manual Package Examples:
 - `mysite.cms.app.1.0.0.nupkg`
