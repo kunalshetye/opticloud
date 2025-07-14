@@ -94,7 +94,7 @@ Use --skip-validation to bypass this check for testing or offline scenarios.
           },
         },
         {
-          type: 'password',
+          type: 'input',
           name: 'clientSecret',
           message: 'Client Secret:',
           when: () => !clientSecret,
