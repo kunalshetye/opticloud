@@ -16,7 +16,7 @@ export default class PackageCreate extends Command {
   static override summary = 'Create a deployment package from a directory'
 
   static override description = `
-Create a deployment package from a directory, respecting .gitignore patterns.
+Create a deployment package from a directory, respecting .zipignore patterns.
 The command packages the contents of the directory (not the directory itself) into a zip file 
 with the appropriate DXP naming convention and file extension.
 
@@ -26,7 +26,7 @@ Package Types:
 - head: Creates [prefix.]head.app.<version>.zip
 - sqldb: Creates [prefix.]cms.sqldb.<version>.bacpac or [prefix.]commerce.sqldb.<version>.bacpac
 
-The created package respects .gitignore files in the source directory.
+The created package respects .zipignore files in the source directory.
 `
 
   static override examples = [
@@ -129,7 +129,7 @@ The created package respects .gitignore files in the source directory.
       await PackageCreator.createPackage({
         sourceDir,
         packagePath,
-        useGitignore: true,
+        useZipignore: true,
       })
 
       spinner.stop()
@@ -158,7 +158,12 @@ The created package respects .gitignore files in the source directory.
   }
 
   private generatePackageInfo(type: PackageType, version?: string, prefix?: string, dbType = 'cms'): PackageInfo {
-    const packageVersion = version || new Date().toISOString().slice(0, 10).replace(/-/g, '')
+    const packageVersion = version || (() => {
+      const now = new Date()
+      const date = now.toISOString().slice(0, 10).replace(/-/g, '')
+      const time = now.toTimeString().slice(0, 8).replace(/:/g, '')
+      return `${date}${time}`
+    })()
     
     let name: string
     let extension: string

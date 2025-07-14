@@ -260,7 +260,7 @@ without permanently changing stored credentials.
       await PackageCreator.createPackage({
         sourceDir,
         packagePath,
-        useGitignore: true,
+        useZipignore: true,
       })
 
       spinner.stop()

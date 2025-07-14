@@ -653,7 +653,7 @@ opticloud package:create ./my-commerce-app --type=commerce --version=1.0.0
 
 #### Package Contents:
 - Packages the **contents** of the directory recursively (not the directory itself)
-- Respects `.gitignore` files in the source directory
+- Respects `.zipignore` files in the source directory
 - Excludes common build artifacts (node_modules/, .DS_Store, etc.)
 
 #### Manual Package Examples:
@@ -834,7 +834,7 @@ npx @kunalshetye/opticloud auth:login
 **Package Creation Failed**
 ```bash
 # Ensure source directory exists and is readable
-# Check .gitignore syntax if using custom patterns
+# Check .zipignore syntax if using custom patterns
 # Verify sufficient disk space for package creation
 opticloud package:create ./my-app --type=cms --prefix=mysite
 

@@ -7,7 +7,7 @@ import ignore from 'ignore'
 export interface PackageCreatorOptions {
   sourceDir: string
   packagePath: string
-  useGitignore?: boolean
+  useZipignore?: boolean
 }
 
 export class PackageCreator {
@@ -15,7 +15,7 @@ export class PackageCreator {
    * Create a highly compressed ZIP package from a directory
    */
   static async createPackage(options: PackageCreatorOptions): Promise<void> {
-    const { sourceDir, packagePath, useGitignore = true } = options
+    const { sourceDir, packagePath, useZipignore = true } = options
     
     return new Promise(async (resolve, reject) => {
       const output = createWriteStream(packagePath)
@@ -49,7 +49,7 @@ export class PackageCreator {
 
       try {
         // Load ignore patterns if requested
-        const ignorePatterns = useGitignore 
+        const ignorePatterns = useZipignore 
           ? await PackageCreator.loadIgnorePatterns(sourceDir)
           : ignore()
 
@@ -65,7 +65,7 @@ export class PackageCreator {
   }
 
   /**
-   * Load .gitignore patterns plus common exclusions
+   * Load .zipignore patterns plus common exclusions
    */
   private static async loadIgnorePatterns(directory: string): Promise<ReturnType<typeof ignore>> {
     const ig = ignore()
@@ -96,13 +96,13 @@ export class PackageCreator {
     ])
 
     try {
-      const gitignorePath = join(directory, '.gitignore')
-      if (existsSync(gitignorePath)) {
-        const gitignoreContent = await readFile(gitignorePath, 'utf8')
-        ig.add(gitignoreContent)
+      const zipignorePath = join(directory, '.zipignore')
+      if (existsSync(zipignorePath)) {
+        const zipignoreContent = await readFile(zipignorePath, 'utf8')
+        ig.add(zipignoreContent)
       }
     } catch (error) {
-      // Ignore errors reading .gitignore - it's optional
+      // Ignore errors reading .zipignore - it's optional
     }
 
     return ig
