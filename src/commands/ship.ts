@@ -1,6 +1,6 @@
 import {Command, Flags, Args} from '@oclif/core'
 import {resolve, join, basename} from 'node:path'
-import {existsSync, statSync, unlinkSync} from 'node:fs'
+import {existsSync, statSync, unlinkSync, mkdirSync} from 'node:fs'
 import {tmpdir} from 'node:os'
 import {auth} from '../lib/auth.js'
 import {config} from '../lib/config.js'
@@ -239,6 +239,11 @@ without permanently changing stored credentials.
     try {
       // Determine output directory (temp if not specified)
       const outputDir = flags.output ? resolve(flags.output) : tmpdir()
+      
+      // Create output directory if it doesn't exist
+      if (!existsSync(outputDir)) {
+        mkdirSync(outputDir, { recursive: true })
+      }
       
       // Generate package info
       const packageInfo = this.generatePackageInfo(

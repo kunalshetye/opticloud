@@ -1,6 +1,6 @@
 import {Command, Flags, Args} from '@oclif/core'
 import {resolve, join} from 'node:path'
-import {existsSync, statSync} from 'node:fs'
+import {existsSync, statSync, mkdirSync} from 'node:fs'
 import {formatError, logError, logSuccess, createSpinner} from '../../lib/utils.js'
 import {PackageCreator} from '../../lib/package-creator.js'
 
@@ -104,11 +104,10 @@ The created package respects .zipignore files in the source directory.
       this.exit(1)
     }
 
-    // Validate output directory
+    // Validate and create output directory
     const outputDir = resolve(output)
     if (!existsSync(outputDir)) {
-      logError(`Output directory not found: ${outputDir}`)
-      this.exit(1)
+      mkdirSync(outputDir, { recursive: true })
     }
 
     try {
