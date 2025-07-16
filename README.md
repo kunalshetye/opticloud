@@ -5,6 +5,9 @@
 [![license](https://img.shields.io/npm/l/@kunalshetye/opticloud.svg)](https://github.com/kunalshetye/opticloud/blob/main/LICENSE)
 [![Node.js version](https://img.shields.io/node/v/@kunalshetye/opticloud.svg)](https://nodejs.org)
 
+> [!NOTE]
+> Since this package is open source under MIT License, Optimizely Support might not be the best place to help troubleshoot it. See the [Support](#support) section for more information.
+
 A modern command-line interface for managing Optimizely Digital Experience Platform (DXP) Cloud deployments, built with Node.js and TypeScript.
 
 ## Table of Contents
@@ -920,4 +923,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For issues and feature requests, please use the [GitHub Issues](https://github.com/kunalshetye/opticloud/issues) page.
 
-For Optimizely DXP Cloud platform support, visit the [Optimizely Developer Community](https://world.optimizely.com/community/).
+For Optimizely DXP Cloud platform support, visit the [Optimizely Developer Community](https://world.optimizely.com/community/) or [Community Slack Channel](https://optimizely-community.slack.com/).
