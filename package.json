@@ -1,6 +1,6 @@
 {
   "name": "@kunalshetye/opticloud",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Command line interface for Optimizely DXP Cloud operations",
   "author": "Kunal Shetye",
   "bin": "./bin/run.js",
