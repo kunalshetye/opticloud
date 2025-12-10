@@ -95,7 +95,6 @@ temp/
 # Configuration files with sensitive data
 config.json
 credentials.json
-.yarnrc.yml
 
 # CLI generated files
 .opticloud/
