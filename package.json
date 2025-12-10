@@ -3,11 +3,16 @@
   "version": "0.0.6",
   "description": "Command line interface for Optimizely DXP Cloud operations",
   "author": "Kunal Shetye",
-  "bin": "./bin/run.js",
+  "bin": {
+    "opticloud": "bin/run.js"
+  },
   "homepage": "https://github.com/kunalshetye/opticloud",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "kunalshetye/opticloud",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunalshetye/opticloud.git"
+  },
   "files": [
     "/bin",
     "/dist",
